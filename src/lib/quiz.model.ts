@@ -1,0 +1,1 @@
+export type QuizState = {state: 'PENDING'} | {state: 'QUESTION', id: string};
