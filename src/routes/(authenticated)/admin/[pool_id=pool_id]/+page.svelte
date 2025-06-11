@@ -5,8 +5,6 @@
 </script>
 
 <main>
-  {JSON.stringify(data.pool)}
-
   <form action="?/state" use:enhance method="POST">
     <button name="state" class:selected={data.state.state === 'PENDING'} value="PENDING">
       En attente
@@ -18,10 +16,12 @@
       Fermer
     </button>
   </form>
+
+  <pre>{JSON.stringify(data.pool, null, 2)}</pre>
 </main>
 
 <style lang="scss">
   button.selected {
-    border-color: var(--color-primary);
+    border-color: var(--color-primary-500);
   }
 </style>

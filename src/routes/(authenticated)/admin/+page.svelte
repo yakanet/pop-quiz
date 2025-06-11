@@ -3,7 +3,6 @@
 </script>
 
 <main>
-  {JSON.stringify(data.user)}
   <h1>Liste des pools de quizz</h1>
   <ul>
     {#each data.pools as pool}
