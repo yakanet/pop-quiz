@@ -1,9 +1,10 @@
 import { svelteTesting } from '@testing-library/svelte/vite';
 import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vite';
+import iconify from './src/plugins/iconify-plugin';
 
 export default defineConfig(() => ({
-  plugins: [sveltekit()],
+  plugins: [iconify(), sveltekit()],
   test: {
     projects: [
       {

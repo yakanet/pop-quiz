@@ -27,7 +27,7 @@
 
 <style lang="scss">
   :global(header:has(~ main.floral)) {
-    visibility: hidden;
+    display: none;
   }
 
   :global(body:has(main.floral)) {
@@ -36,8 +36,15 @@
   }
 
   main {
+    grid-row: 2;
     align-content: center;
-    translate: 0 -50px;
+  }
+
+  @media (max-width: 768px) {
+    main {
+      margin-block-start: 3rem;
+      grid-row: 1;
+    }
   }
 
   form {
