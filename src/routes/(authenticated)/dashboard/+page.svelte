@@ -4,7 +4,7 @@
 
 <main>
 
-	<h1>List des pools de quizz</h1>
+	<h1>Liste des pools de quizz</h1>
 	<ul>
 		{#each data.pools as pool}
 			<li>

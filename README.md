@@ -1,28 +1,25 @@
-# sv
+# Pop-quiz
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
-
-## Creating a project
-
-If you're seeing this, you've probably already done this step. Congrats!
-
-```bash
-# create a new project in the current directory
-npx sv create
-
-# create a new project in my-app
-npx sv create my-app
-```
+Everything you need to build a Svelte project.
 
 ## Developing
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+Once you've created a project and installed dependencies with `pnpm install`
+
+You need to create a .env file based on .env.examples
+
+| Environment Variable | Description                                                       | Example                                      |
+|----------------------|-------------------------------------------------------------------|----------------------------------------------|
+| DATABASE_URL         | PostgreSQL connection string for the database (pooled connection) | postgresql://username:password@host/database |
+| DATABASE_LISTEN_URL  | PostgreSQL connection string for the database (direct connection) | postgresql://username:password@host/database |
+
+Then start a development server:
 
 ```bash
-npm run dev
+pnpm dev
 
 # or start the server and open the app in a new browser tab
-npm run dev -- --open
+pnpm dev -- --open
 ```
 
 ## Building
@@ -30,9 +27,20 @@ npm run dev -- --open
 To create a production version of your app:
 
 ```bash
-npm run build
+pnpm build
 ```
 
-You can preview the production build with `npm run preview`.
+You can preview the production build with `pnpm preview`.
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+### Quiz states
+
+```mermaid
+flowchart LR
+    NOT_STARTED --> PENDING
+    PENDING --> QUESTION_*
+    QUESTION_* --> ANSWERED_*
+    QUESTION_* --> PENDING
+    ANSWERED_* --> PENDING
+    PENDING --> FINISHED
+    UNKNOWN
+```

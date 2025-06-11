@@ -8,7 +8,7 @@
 
 	let { data } = $props();
 	let state = $derived(data.state);
-	const newState: Readable<QuizState> = source(`/${data.quiz_pool.id}/status`)
+	const newState: Readable<QuizState> = source(`/${data.pool.id}/status`)
 		.select('message')
 		.json();
 
@@ -32,6 +32,8 @@
 		<PendingState />
 	{:else if state.state === 'QUESTION'}
 		<QuestionState id={Number(state.id)} />
+	{:else if state.state === 'FINISHED'}
+		<h1>Fermé</h1>
 	{:else if state.state === 'UNKNOWN'}
 		<h1>État inconnu ({state.raw})</h1>
 	{/if}

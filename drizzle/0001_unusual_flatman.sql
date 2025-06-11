@@ -19,7 +19,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 CREATE OR REPLACE TRIGGER quiz_change_trigger
-    AFTER INSERT OR UPDATE OR DELETE
+    AFTER INSERT OR UPDATE
     ON quiz_pool
     FOR EACH ROW
 EXECUTE FUNCTION notify_quiz_change();
