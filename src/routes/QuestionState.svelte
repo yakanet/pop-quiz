@@ -1,6 +1,6 @@
 <script lang="ts">
 	interface Prop {
-		id: string
+		id: number
 	}
 	let {id}: Prop = $props();
 </script>

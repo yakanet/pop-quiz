@@ -4,22 +4,22 @@
 	import { source } from 'sveltekit-sse';
 	import type { Readable } from 'svelte/store';
 	import type { QuizState } from '$lib/quiz.model';
-	import { tick } from 'svelte';
+	import { invalidateAll } from '$app/navigation';
 
 	let { data } = $props();
-	let state = $derived(data.state);
-	const value = source('/api/quiz/status').select('message').json() as Readable<QuizState>;
+	let state = $derived(data.pool.quiz_state!);
+	const newState = source('/api/quiz/status').select('message').json() as Readable<QuizState>;
 	$effect(() => {
-		if ($value) {
-			console.log({ value: $value });
-			if (!document.startViewTransition) {
-				state = $value;
-			} else {
-				document.startViewTransition(async () => {
-					state = $value;
-					await tick();
-				});
-			}
+		if (!$newState) {
+			return;
+		}
+		console.log({ newState: $newState });
+		if (!document.startViewTransition) {
+			invalidateAll();
+		} else {
+			document.startViewTransition(async () => {
+				await invalidateAll();
+			});
 		}
 	});
 </script>
@@ -30,7 +30,6 @@
 	<QuestionState id={state.id} />
 {:else}
 	<h1>Statut inconnu</h1>
-	<pre>{JSON.stringify(state)}</pre>
 {/if}
 <hr>
 <pre>{JSON.stringify(data.pool, null, 2)}</pre>

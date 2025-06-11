@@ -8,7 +8,8 @@ BEGIN
     -- You can customize the payload structure as needed
     payload := json_build_object(
         'operation', TG_OP,
-        'quiz_id', COALESCE(NEW.id, OLD.id),
+        'quiz_pool_id', COALESCE(NEW.quiz_pool_id, OLD.quiz_pool_id),
+        'state', COALESCE(NEW.state, 'PENDING'),
         'timestamp', current_timestamp
     );
     -- RAISE NOTICE 'Trigger fired: %, quiz_id: %', TG_OP, COALESCE(NEW.id, OLD.id);
