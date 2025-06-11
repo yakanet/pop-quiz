@@ -35,10 +35,13 @@ You can preview the production build with `pnpm preview`.
 ### Quiz states
 
 ```mermaid
+---
+title: Quiz workflow
+---
 flowchart LR
     NOT_STARTED --> PENDING
     PENDING --> QUESTION_*
-    QUESTION_* --> ANSWERED_*
+    QUESTION_* --virtual state--> ANSWERED_*
     QUESTION_* --> PENDING
     ANSWERED_* --> PENDING
     PENDING --> FINISHED
