@@ -8,7 +8,10 @@
 
 	let { data } = $props();
 	let state = $derived(data.pool.quiz_state!);
-	const newState = source('/api/quiz/status').select('message').json() as Readable<QuizState>;
+	const newState: Readable<QuizState> = source('/api/quiz/status')
+		.select('message')
+		.json();
+
 	$effect(() => {
 		if (!$newState) {
 			return;
@@ -24,12 +27,14 @@
 	});
 </script>
 
-{#if state.state === 'PENDING'}
-	<PendingState />
-{:else if state.state === 'QUESTION'}
-	<QuestionState id={state.id} />
-{:else}
-	<h1>Statut inconnu</h1>
-{/if}
-<hr>
-<pre>{JSON.stringify(data.pool, null, 2)}</pre>
+<main>
+	{#if state.state === 'PENDING'}
+		<PendingState />
+	{:else if state.state === 'QUESTION'}
+		<QuestionState id={state.id} />
+	{:else}
+		<h1>Statut inconnu</h1>
+	{/if}
+	<hr>
+	<pre>{JSON.stringify(data.pool, null, 2)}</pre>
+</main>

@@ -5,3 +5,13 @@
 body {
   font-family: "Roboto", sans-serif;
 }
+
+:root {
+  --color-primary: #8bc43f;
+}
+
+main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+}
