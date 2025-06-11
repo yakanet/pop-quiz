@@ -1,10 +1,10 @@
-@use "reset";
-@use "@fontsource/roboto/latin.css";
-@use "animation";
-@use "form";
+@use 'reset';
+@use '@fontsource/roboto/latin.css';
+@use 'animation';
+@use 'form';
 
 body {
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
   display: grid;
   grid-template-rows: auto 1fr;
   min-height: 100vh;

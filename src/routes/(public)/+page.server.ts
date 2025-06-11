@@ -1,5 +1,5 @@
 import { redirect } from '@sveltejs/kit';
 
 export async function load() {
-	redirect(303, `/1`); // TODO need to find enabled pool
+  redirect(303, `/1`); // TODO need to find enabled pool
 }

@@ -1,8 +1,8 @@
 <script lang="ts">
-	import '../styles/main.scss';
-	import Header from './Header.svelte';
+  import '../styles/main.scss';
+  import Header from './Header.svelte';
 
-	let { children } = $props();
+  let { children } = $props();
 </script>
 
 <Header />

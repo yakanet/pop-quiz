@@ -1,32 +1,32 @@
 <script lang="ts">
-	import { enhance }         from '$app/forms';
-	import type { ActionData } from './$types';
+  import { enhance } from '$app/forms';
+  import type { ActionData } from './$types';
 
-	let { form }: { form: ActionData } = $props();
+  let { form }: { form: ActionData } = $props();
 </script>
 
 <main class="floral">
-	<form method="post" action="?/login" use:enhance>
-		<h1>Identification</h1>
-		<label>
-			Nom d'utilisateur
-			<input name="username" />
-		</label>
-		<label>
-			Mot de passe
-			<input type="password" name="password" />
-		</label>
-		<p style="color: red">{form?.message ?? ''}</p>
+  <form method="post" action="?/login" use:enhance>
+    <h1>Identification</h1>
+    <label>
+      Nom d'utilisateur
+      <input name="username" />
+    </label>
+    <label>
+      Mot de passe
+      <input type="password" name="password" />
+    </label>
+    <p style="color: red">{form?.message ?? ''}</p>
 
-		<div class="actions">
-			<button>Se connecter</button>
-			<button formaction="?/register">Créer un compte</button>
-		</div>
-	</form>
+    <div class="actions">
+      <button>Se connecter</button>
+      <button formaction="?/register">Créer un compte</button>
+    </div>
+  </form>
 </main>
 
 <style lang="scss">
-  :global(header:has(~main.floral)) {
+  :global(header:has(~ main.floral)) {
     visibility: hidden;
   }
 
