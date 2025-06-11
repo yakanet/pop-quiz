@@ -10,6 +10,7 @@
 	const value = source('/api/quiz/status').select('message').json() as Readable<QuizState>;
 	$effect(() => {
 		if ($value) {
+			console.log({value: $value})
 			state = $value;
 		}
 	});
@@ -20,4 +21,5 @@
 {:else if state.state === 'QUESTION'}
 	<QuestionState id={state.id} />
 {/if}
+<pre>{JSON.stringify(data.pool, null, 2)}</pre>
 {JSON.stringify(state)}
