@@ -1,9 +1,13 @@
 @use "reset";
 @use "@fontsource/roboto/latin.css";
 @use "animation";
+@use "form";
 
 body {
   font-family: "Roboto", sans-serif;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  min-height: 100vh;
 }
 
 :root {
@@ -12,6 +16,7 @@ body {
 
 main {
   max-width: 1200px;
+  width: 100%;
   margin: 0 auto;
   padding: 1rem;
 }

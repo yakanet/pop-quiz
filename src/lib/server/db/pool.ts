@@ -1,12 +1,12 @@
-import { env } from '$env/dynamic/private';
-import postgres from 'postgres';
-import { EventEmitter } from 'node:events';
+import { env }            from '$env/dynamic/private';
+import postgres           from 'postgres';
+import { EventEmitter }   from 'node:events';
 import type { QuizState } from '$lib/quiz.model';
 
 if (!env.DATABASE_LISTEN_URL) throw new Error('DATABASE_URL is not set');
 
 const pg = postgres(env.DATABASE_LISTEN_URL, {
-	idle_timeout: 0,
+	idle_timeout: 0
 });
 
 /**
@@ -26,7 +26,7 @@ const listen = await pg.listen('quiz_changes', async (data) => {
 });
 
 ['SIGTERM', 'SIGINT'].forEach((signal) => {
-	process.on(signal, (_code) => {
+	process.on(signal, () => {
 		stateChanged.removeAllListeners();
 		listen.unlisten().then(() => process.exit(0));
 	});

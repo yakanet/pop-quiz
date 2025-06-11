@@ -58,4 +58,22 @@ export const quizAnswer = pgTable('quiz_answer', {
 		.defaultNow()
 });
 
-export type QuizState = 'PENDING' | `QUESTION_${string}` | 'FINISHED'
+
+export const adminUser = pgTable('admin_user', {
+	id: varchar().primaryKey(),
+	enabled: boolean().notNull().default(false),
+	username: varchar().notNull().unique(),
+	passwordHash: varchar().notNull()
+});
+
+export const adminSession = pgTable('admin_session', {
+	id: varchar().primaryKey(),
+	userId: varchar().notNull()
+		.references(() => adminUser.id),
+	expiresAt: timestamp({ withTimezone: true }).notNull()
+});
+
+
+export type Session = typeof adminSession.$inferSelect;
+
+export type User = typeof adminUser.$inferSelect;

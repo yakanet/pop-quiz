@@ -7,13 +7,13 @@ export function parseState(state: string): QuizState {
 		case 'FINISHED':
 			return { state };
 		default:
-			if (/^QUESTION_(\d+)$/.test(state)) {
+			if (/^QUESTION_\d+$/.test(state)) {
 				const [_, id] = state.split('_');
-				return { state: 'QUESTION', id: id };
+				return { state: 'QUESTION', id: Number(id) };
 			}
-			if (/^ANSWERED_(\d+)$/.test(state)) {
+			if (/^ANSWERED_\d+$/.test(state)) {
 				const [_, id] = state.split('_');
-				return { state: 'ANSWERED', id: id };
+				return { state: 'ANSWERED', id: Number(id) };
 			}
 			return { state: 'UNKNOWN', raw: state };
 	}

@@ -27,25 +27,25 @@ pnpm dev -- --open
 ### Init database
 When you have an empty database, you can initialize dabase schema using the following command :
 ```bash
-pnpm drizzle-kit migrate
+pnpm db migrate
 ```
 
 ### Generate a migration file from database
 In order to create migration file (a versioned schema), you need to use the following command :
 ```bash
-pnpm drizzle-kit generate
+pnpm db generate
 ```
 
 ### Dev mode with database (from schema.ts to database)
 In dev mode, when you update your schema.ts file, to update the database schema, use the following command :
 ```bash
-pnpm drizzle-kit push
+pnpm db push
 ```
 
 ### Access database (browser IDE)
 In dev mode, drizzle has an IDE to visualize data
 ```bash
-pnpm drizzle-kit studio
+pnpm db studio
 ```
 
 The browser IDE will be accessible on https://local.drizzle.studio/

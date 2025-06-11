@@ -5,6 +5,6 @@ export async function load() {
 	const pools = await db.select()
 		.from(quizPool)
 	return {
-		pools
+		pools,
 	};
 }
