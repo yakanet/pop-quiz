@@ -7,8 +7,8 @@
 	import { invalidateAll } from '$app/navigation';
 
 	let { data } = $props();
-	let state = $derived(data.pool.quiz_state!);
-	const newState: Readable<QuizState> = source('/api/quiz/status')
+	let state = $derived(data.state);
+	const newState: Readable<QuizState> = source(`/${data.quiz_pool.id}/status`)
 		.select('message')
 		.json();
 
@@ -31,10 +31,10 @@
 	{#if state.state === 'PENDING'}
 		<PendingState />
 	{:else if state.state === 'QUESTION'}
-		<QuestionState id={state.id} />
-	{:else}
-		<h1>Statut inconnu</h1>
+		<QuestionState id={Number(state.id)} />
+	{:else if state.state === 'UNKNOWN'}
+		<h1>État inconnu ({state.raw})</h1>
 	{/if}
 	<hr>
-	<pre>{JSON.stringify(data.pool, null, 2)}</pre>
+	<pre>{JSON.stringify(data, null, 2)}</pre>
 </main>

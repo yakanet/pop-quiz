@@ -7,12 +7,11 @@ DECLARE
 BEGIN
     -- You can customize the payload structure as needed
     payload := json_build_object(
-        'operation', TG_OP,
-        'quiz_pool_id', COALESCE(NEW.quiz_pool_id, OLD.quiz_pool_id),
-        'state', COALESCE(NEW.state, 'PENDING'),
-        'timestamp', current_timestamp
-    );
-    -- RAISE NOTICE 'Trigger fired: %, quiz_id: %', TG_OP, COALESCE(NEW.id, OLD.id);
+            'operation', TG_OP,
+            'quiz_pool_id', COALESCE(NEW.id, OLD.id),
+            'state', COALESCE(NEW.state, 'PENDING'),
+            'timestamp', current_timestamp
+               );
     -- Send notification on the "quiz_changes" channel
     PERFORM pg_notify('quiz_changes', payload::text);
     RETURN NEW;
@@ -20,5 +19,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 CREATE OR REPLACE TRIGGER quiz_change_trigger
-    AFTER INSERT OR UPDATE OR DELETE ON quiz_state
-    FOR EACH ROW EXECUTE FUNCTION notify_quiz_change();
+    AFTER INSERT OR UPDATE OR DELETE
+    ON quiz_pool
+    FOR EACH ROW
+EXECUTE FUNCTION notify_quiz_change();

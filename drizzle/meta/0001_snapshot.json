@@ -1,11 +1,11 @@
 {
-  "id": "9c64cbd1-fad1-4638-afc5-7b0b7ff2b032",
-  "prevId": "5abacb60-a7d4-4fe4-82f6-dadc42b5d241",
+  "id": "de222cf2-a785-48c7-a640-443f7b8b3f01",
+  "prevId": "e36b0c32-27ca-461c-a620-db1157c7f051",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
-    "public.quiz": {
-      "name": "quiz",
+    "public.quiz_answer": {
+      "name": "quiz_answer",
       "schema": "",
       "columns": {
         "id": {
@@ -14,22 +14,21 @@
           "primaryKey": true,
           "notNull": true
         },
-        "quiz_poll_id": {
-          "name": "quiz_poll_id",
+        "user_id": {
+          "name": "user_id",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "quiz_item_id": {
+          "name": "quiz_item_id",
           "type": "integer",
           "primaryKey": false,
           "notNull": true
         },
-        "question_type": {
-          "name": "question_type",
-          "type": "question_type",
-          "typeSchema": "public",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "question": {
-          "name": "question",
-          "type": "varchar",
+        "answer": {
+          "name": "answer",
+          "type": "json",
           "primaryKey": false,
           "notNull": true
         },
@@ -50,13 +49,13 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "quiz_quiz_poll_id_quiz_pool_id_fk": {
-          "name": "quiz_quiz_poll_id_quiz_pool_id_fk",
-          "tableFrom": "quiz",
+        "quiz_answer_quiz_item_id_quiz_question_item_id_fk": {
+          "name": "quiz_answer_quiz_item_id_quiz_question_item_id_fk",
+          "tableFrom": "quiz_answer",
           "columnsFrom": [
-            "quiz_poll_id"
+            "quiz_item_id"
           ],
-          "tableTo": "quiz_pool",
+          "tableTo": "quiz_question_item",
           "columnsTo": [
             "id"
           ],
@@ -70,8 +69,8 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public.quiz_item": {
-      "name": "quiz_item",
+    "public.quiz_question_item": {
+      "name": "quiz_question_item",
       "schema": "",
       "columns": {
         "id": {
@@ -116,13 +115,13 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "quiz_item_quiz_id_quiz_id_fk": {
-          "name": "quiz_item_quiz_id_quiz_id_fk",
-          "tableFrom": "quiz_item",
+        "quiz_question_item_quiz_id_quiz_question_id_fk": {
+          "name": "quiz_question_item_quiz_id_quiz_question_id_fk",
+          "tableFrom": "quiz_question_item",
           "columnsFrom": [
             "quiz_id"
           ],
-          "tableTo": "quiz",
+          "tableTo": "quiz_question",
           "columnsTo": [
             "id"
           ],
@@ -153,6 +152,12 @@
           "notNull": false,
           "default": "'50'"
         },
+        "state": {
+          "name": "state",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
         "created_at": {
           "name": "created_at",
           "type": "timestamp with time zone",
@@ -176,14 +181,33 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public.quiz_state": {
-      "name": "quiz_state",
+    "public.quiz_question": {
+      "name": "quiz_question",
       "schema": "",
       "columns": {
         "id": {
           "name": "id",
           "type": "serial",
           "primaryKey": true,
+          "notNull": true
+        },
+        "quiz_poll_id": {
+          "name": "quiz_poll_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "question_type": {
+          "name": "question_type",
+          "type": "question_type",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "question": {
+          "name": "question",
+          "type": "varchar",
+          "primaryKey": false,
           "notNull": true
         },
         "created_at": {
@@ -199,27 +223,15 @@
           "primaryKey": false,
           "notNull": true,
           "default": "now()"
-        },
-        "quiz_pool_id": {
-          "name": "quiz_pool_id",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "state": {
-          "name": "state",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": true
         }
       },
       "indexes": {},
       "foreignKeys": {
-        "quiz_state_quiz_pool_id_quiz_pool_id_fk": {
-          "name": "quiz_state_quiz_pool_id_quiz_pool_id_fk",
-          "tableFrom": "quiz_state",
+        "quiz_question_quiz_poll_id_quiz_pool_id_fk": {
+          "name": "quiz_question_quiz_poll_id_quiz_pool_id_fk",
+          "tableFrom": "quiz_question",
           "columnsFrom": [
-            "quiz_pool_id"
+            "quiz_poll_id"
           ],
           "tableTo": "quiz_pool",
           "columnsTo": [

@@ -7,4 +7,4 @@ if (!env.DATABASE_URL) throw new Error('DATABASE_URL is not set');
 
 const pg_pool = postgres(env.DATABASE_URL);
 
-export const db = drizzle(pg_pool, { schema });
+export const db = drizzle(pg_pool, { schema, casing: 'snake_case' });

@@ -21,14 +21,13 @@ const listen = await pg.listen('quiz_changes', async (data) => {
 	const json = JSON.parse(data);
 	stateChanged.emit('quiz_changes', {
 		id: json.quiz_pool_id,
-		state:  json.state
+		state: json.state
 	} satisfies QuizState);
 });
 
-process.on('SIGTERM', (_code) => {
-	listen.unlisten()
-})
-
-process.on('SIGINT', (_code) => {
-	listen.unlisten()
-})
+['SIGTERM', 'SIGINT'].forEach((signal) => {
+	process.on(signal, (_code) => {
+		stateChanged.removeAllListeners();
+		listen.unlisten().then(() => process.exit(0));
+	});
+});
