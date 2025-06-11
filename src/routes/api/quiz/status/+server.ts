@@ -1,27 +1,26 @@
 // src/routes/custom-event/+server.js
 import { produce } from 'sveltekit-sse';
-import { db, pg } from '$lib/server/db';
+import { db } from '$lib/server/db';
 import { quizPool, quizState } from '$lib/server/db/schema';
 import { eq } from 'drizzle-orm';
+import { stateChanged } from '$lib/server/db/pool';
 
 export function POST() {
 	return produce(async ({ emit }) => {
-		console.log('started');
-		const listen = await pg.listen('quiz_changes', async (data) => {
-			console.log('table changed', data);
+		const onChange = async (event: any) => {
+			console.log({ event });
 			const [pool] = await db.select().from(quizPool)
 				.leftJoin(quizState, eq(quizState.quizPoolId, quizPool.id))
-				.where(eq(quizPool.id, 1));
+				.where(eq(quizPool.id, event.id));
 
-			const { error } = emit('message', JSON.stringify({state: pool.quiz_state?.state}));
+			const { error } = emit('message', JSON.stringify({ state: pool.quiz_state?.state }));
 			if (error) {
 				return;
 			}
-		});
-		console.log(listen);
+		};
+		stateChanged.on('quiz_changes', onChange);
 		return () => {
-			console.log('stoped');
-			listen.unlisten();
+			stateChanged.removeListener('quiz_changes', onChange);
 		};
 	});
 }
