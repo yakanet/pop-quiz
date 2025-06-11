@@ -1,8 +1,7 @@
 import type { Plugin } from 'vite';
 import { locate } from '@iconify/json';
 import { getIconData } from '@iconify/utils';
-
-import { readFileSync } from 'fs';
+import { readFileSync } from 'node:fs';
 
 export default function (): Plugin {
   return {
