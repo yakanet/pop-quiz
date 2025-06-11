@@ -7,7 +7,17 @@
 </script>
 
 <Header homeLink="/admin">
-  <Icon icon={icon_user} />
-  {data.user?.username}
+  <a href="/admin/logout" data-sveltekit-preload-data="off">
+    <Icon icon={icon_user} />
+    {data.user?.username}
+  </a>
 </Header>
 {@render children()}
+
+<style lang="scss">
+  a {
+    color: black;
+    text-decoration: none;
+    display: flex;
+  }
+</style>
