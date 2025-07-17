@@ -1,6 +1,6 @@
 export type QuizState =
   | { state: 'NOT_STARTED' }
-  | { state: 'PENDING' }
+  | { state: 'PREPARE_QUESTION'; id: number }
   | { state: 'QUESTION'; id: number }
   | { state: 'ANSWERED'; id: number }
   | { state: 'FINISHED' }

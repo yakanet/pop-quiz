@@ -3,10 +3,13 @@ import type { QuizState } from '$lib/quiz.model';
 export function parseState(state: string): QuizState {
   switch (state) {
     case 'NOT_STARTED':
-    case 'PENDING':
     case 'FINISHED':
       return { state };
     default:
+      if (/^PREPARE_QUESTION_\d+$/.test(state)) {
+        const [_, id] = state.split('_');
+        return { state: 'QUESTION', id: Number(id) };
+      }
       if (/^QUESTION_\d+$/.test(state)) {
         const [_, id] = state.split('_');
         return { state: 'QUESTION', id: Number(id) };
@@ -24,10 +27,10 @@ export function stateToString(state: QuizState): string {
   switch (state.state) {
     case 'NOT_STARTED':
       return 'NOT_STARTED';
-    case 'PENDING':
-      return 'PENDING';
     case 'FINISHED':
       return 'FINISHED';
+    case 'PREPARE_QUESTION':
+      return `PREPARE_QUESTION_${state.id}`;
     case 'QUESTION':
       return `QUESTION_${state.id}`;
     case 'ANSWERED':

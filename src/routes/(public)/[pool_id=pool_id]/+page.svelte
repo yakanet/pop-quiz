@@ -1,5 +1,5 @@
 <script lang="ts">
-  import PendingState from './PendingState.svelte';
+  import PrepareQuestionState from './PrepareQuestionState.svelte';
   import QuestionState from './QuestionState.svelte';
   import { source } from 'sveltekit-sse';
   import type { Readable } from 'svelte/store';
@@ -26,8 +26,8 @@
 </script>
 
 <main>
-  {#if state.state === 'PENDING'}
-    <PendingState />
+  {#if state.state === 'PREPARE_QUESTION'}
+    <PrepareQuestionState />
   {:else if state.state === 'QUESTION'}
     <QuestionState id={Number(state.id)} />
   {:else if state.state === 'FINISHED'}

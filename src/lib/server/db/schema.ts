@@ -5,7 +5,8 @@ import {
   pgEnum,
   pgTable,
   serial,
-  timestamp, unique,
+  timestamp,
+  unique,
   varchar,
 } from 'drizzle-orm/pg-core';
 
@@ -49,23 +50,27 @@ export const quizItem = pgTable('quiz_question_item', {
     .references(() => quizQuestion.id),
 });
 
-export const quizUser = pgTable('quiz_user', {
-  user_id: varchar().primaryKey(),
-  quizPollId: integer()
-    .notNull()
-    .references(() => quizPool.id),
-  createdAt: timestamp({ withTimezone: true, mode: 'date' }).defaultNow().notNull(),
-  updatedAt: timestamp({ withTimezone: true, mode: 'date' })
-    .$onUpdate(() => new Date())
-    .notNull()
-    .defaultNow(),
-}, (table) => [
-  unique().on(table.user_id, table.quizPollId)
-]);
+export const quizUser = pgTable(
+  'quiz_user',
+  {
+    user_id: varchar().primaryKey(),
+    quizPollId: integer()
+      .notNull()
+      .references(() => quizPool.id),
+    createdAt: timestamp({ withTimezone: true, mode: 'date' }).defaultNow().notNull(),
+    updatedAt: timestamp({ withTimezone: true, mode: 'date' })
+      .$onUpdate(() => new Date())
+      .notNull()
+      .defaultNow(),
+  },
+  (table) => [unique().on(table.user_id, table.quizPollId)]
+);
 
 export const quizAnswer = pgTable('quiz_answer', {
   id: serial().primaryKey(),
-  userId: varchar().notNull(),
+  userId: varchar()
+    .notNull()
+    .references(() => quizUser.user_id),
   quizItemId: integer()
     .notNull()
     .references(() => quizItem.id),
