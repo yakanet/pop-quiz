@@ -3,9 +3,9 @@ import postgres from 'postgres';
 import { EventEmitter } from 'node:events';
 import type { QuizState } from '$lib/quiz.model';
 
-if (!env.DATABASE_LISTEN_URL) throw new Error('DATABASE_URL is not set');
+if (!env.DATABASE_URL) throw new Error('DATABASE_URL is not set');
 
-const pg = postgres(env.DATABASE_LISTEN_URL, {
+const pg = postgres(env.DATABASE_URL, {
   idle_timeout: 0,
 });
 

@@ -7,7 +7,7 @@
   <ul>
     {#each data.pools as pool}
       <li>
-        <a href="/admin/{pool.id}">
+        <a href="/admin/pools/{pool.id}">
           {pool.name} - {pool.state}
         </a>
       </li>
