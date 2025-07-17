@@ -18,6 +18,10 @@ export function parseState(state: string): QuizState {
         const [_, id] = state.split('_');
         return { state: 'ANSWERED', id: Number(id) };
       }
+      if (/^CLOSED_QUESTION_\d+$/.test(state)) {
+        const [_, id] = state.split('_');
+        return { state: 'CLOSED_QUESTION', id: Number(id) };
+      }
       return { state: 'UNKNOWN', raw: state };
   }
 }
@@ -35,6 +39,8 @@ export function stateToString(state: QuizState): string {
       return `QUESTION_${state.id}`;
     case 'ANSWERED':
       return `ANSWERED_${state.id}`;
+    case 'CLOSED_QUESTION':
+      return `CLOSED_QUESTION_${state.id}`;
     default:
       return 'UNKNOWN';
   }
