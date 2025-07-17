@@ -75,11 +75,12 @@ You can preview the production build with `pnpm preview`.
 title: Quiz workflow
 ---
 flowchart LR
-    NOT_STARTED --> PENDING
-    PENDING --> QUESTION_*
+    NOT_STARTED --> PREPARE_QUESTION_*
+    PREPARE_QUESTION_* --> QUESTION_*
     QUESTION_* --virtual state--> ANSWERED_*
-    QUESTION_* --> PENDING
-    ANSWERED_* --> PENDING
-    PENDING --> FINISHED
+    QUESTION_* --> CLOSED_QUESTION_*
+    ANSWERED_* --> CLOSED_QUESTION_*
+    CLOSED_QUESTION_* --> PREPARE_QUESTION_*
+    CLOSED_QUESTION_* --> FINISHED
     UNKNOWN
 ```
