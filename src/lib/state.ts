@@ -52,6 +52,9 @@ export function nextStep(state: QuizState, questions: Question[]): QuizState | n
   const ids = questions.map((q) => q.id).sort((a, b) => a - b);
   switch (state.state) {
     case 'NOT_STARTED':
+      if (!ids.length) {
+        return { state: 'FINISHED' };
+      }
       return { state: 'PREPARE_QUESTION', id: ids[0] };
     case 'PREPARE_QUESTION':
       return { state: 'QUESTION', id: state.id };
