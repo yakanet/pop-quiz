@@ -1,4 +1,5 @@
 import type { QuizState } from '$lib/quiz.model';
+import type { Question } from './server/db/schema';
 
 export function parseState(state: string): QuizState {
   switch (state) {
@@ -6,20 +7,20 @@ export function parseState(state: string): QuizState {
     case 'FINISHED':
       return { state };
     default:
-      if (/^PREPARE_QUESTION_\d+$/.test(state)) {
-        const [_, id] = state.split('_');
+      if (/^PREPARE_QUESTION#\d+$/.test(state)) {
+        const [_, id] = state.split('#');
+        return { state: 'PREPARE_QUESTION', id: Number(id) };
+      }
+      if (/^QUESTION#\d+$/.test(state)) {
+        const [_, id] = state.split('#');
         return { state: 'QUESTION', id: Number(id) };
       }
-      if (/^QUESTION_\d+$/.test(state)) {
-        const [_, id] = state.split('_');
-        return { state: 'QUESTION', id: Number(id) };
-      }
-      if (/^ANSWERED_\d+$/.test(state)) {
-        const [_, id] = state.split('_');
+      if (/^ANSWERED#\d+$/.test(state)) {
+        const [_, id] = state.split('#');
         return { state: 'ANSWERED', id: Number(id) };
       }
-      if (/^CLOSED_QUESTION_\d+$/.test(state)) {
-        const [_, id] = state.split('_');
+      if (/^CLOSED_QUESTION#\d+$/.test(state)) {
+        const [_, id] = state.split('#');
         return { state: 'CLOSED_QUESTION', id: Number(id) };
       }
       return { state: 'UNKNOWN', raw: state };
@@ -34,15 +35,35 @@ export function stateToString(state: QuizState): string {
     case 'FINISHED':
       return 'FINISHED';
     case 'PREPARE_QUESTION':
-      return `PREPARE_QUESTION_${state.id}`;
+      return `PREPARE_QUESTION#${state.id}`;
     case 'QUESTION':
-      return `QUESTION_${state.id}`;
+      return `QUESTION#${state.id}`;
     case 'ANSWERED':
-      return `ANSWERED_${state.id}`;
+      return `ANSWERED#${state.id}`;
     case 'CLOSED_QUESTION':
-      return `CLOSED_QUESTION_${state.id}`;
+      return `CLOSED_QUESTION#${state.id}`;
     default:
       return 'UNKNOWN';
   }
   // @formatter:on
+}
+
+export function nextStep(state: QuizState, questions: Question[]): QuizState | null {
+  const ids = questions.map((q) => q.id).sort((a, b) => a - b);
+  switch (state.state) {
+    case 'NOT_STARTED':
+      return { state: 'PREPARE_QUESTION', id: ids[0] };
+    case 'PREPARE_QUESTION':
+      return { state: 'QUESTION', id: state.id };
+    case 'QUESTION':
+      return { state: 'CLOSED_QUESTION', id: state.id };
+    case 'CLOSED_QUESTION':
+      const currentIndex = ids.findIndex((id) => id === state.id);
+      if (currentIndex === ids.length - 1) {
+        return { state: 'FINISHED' };
+      }
+      return { state: 'PREPARE_QUESTION', id: ids[currentIndex + 1] };
+    default:
+      return null;
+  }
 }
