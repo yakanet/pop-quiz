@@ -82,36 +82,4 @@
     display: flex;
     gap: 0.5rem;
   }
-
-  .btn {
-    appearance: none;
-    padding: 0.5rem 1rem;
-    color: white;
-    text-decoration: none;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-
-  .btn:has(:global(svg)) {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-
-  .btn-primary {
-    background-color: var(--color-primary-500);
-
-    &:hover {
-      background-color: var(--color-primary-600);
-    }
-  }
-
-  .btn-danger {
-    background-color: #dc2626;
-
-    &:hover {
-      background-color: #b91c1c;
-    }
-  }
 </style>

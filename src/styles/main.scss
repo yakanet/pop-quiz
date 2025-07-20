@@ -1,6 +1,7 @@
 @use 'reset';
 @use '@fontsource/roboto/latin.css';
 @use 'animation';
+@use 'buttons';
 @use 'form';
 
 body {
@@ -20,6 +21,16 @@ body {
   --color-primary-700: #577c23;
   --color-primary-800: #3d5718;
   --color-primary-900: #24330e;
+
+  --color-secondary-100: #f5f5f5;
+  --color-secondary-200: #e5e5e5;
+  --color-secondary-300: #d4d4d4;
+  --color-secondary-400: #a3a3a3;
+  --color-secondary-500: #737373;
+  --color-secondary-600: #525252;
+  --color-secondary-700: #404040;
+  --color-secondary-800: #262626;
+  --color-secondary-900: #171717;
 }
 
 main {
