@@ -1,6 +1,13 @@
 import type { QuizState } from '$lib/quiz.model';
 import type { Question } from './server/db/schema';
 
+/**
+ * Parses the provided state string and returns a structured representation of the quiz state.
+ *
+ * @param {string} state - The state string to parse. It can represent various states such as NOT_STARTED, FINISHED, or
+ * states with an identifier like PREPARE_QUESTION#1, QUESTION#2, ANSWERED#3, etc.
+ * @return {QuizState} An object representing the parsed state information, including the state type and optional identifier.
+ */
 export function parseState(state: string): QuizState {
   switch (state) {
     case 'NOT_STARTED':
@@ -27,6 +34,12 @@ export function parseState(state: string): QuizState {
   }
 }
 
+/**
+ * Converts a QuizState object to a string representation based on its current state.
+ *
+ * @param {QuizState} state - The current state of the quiz.
+ * @return {string} A string representation of the given state.
+ */
 export function stateToString(state: QuizState): string {
   // @formatter:off
   switch (state.state) {
@@ -48,6 +61,13 @@ export function stateToString(state: QuizState): string {
   // @formatter:on
 }
 
+/**
+ * Advances the quiz state to the next step based on the current state and the provided list of questions.
+ *
+ * @param {QuizState} state - The current state of the quiz.
+ * @param {Question[]} questions - The list of questions in the quiz.
+ * @return {QuizState | null} The updated quiz state or null if an invalid state is encountered.
+ */
 export function nextStep(state: QuizState, questions: Question[]): QuizState | null {
   const ids = questions.map((q) => q.id).sort((a, b) => a - b);
   switch (state.state) {
