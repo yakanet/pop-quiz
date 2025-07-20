@@ -6,8 +6,8 @@
 
 <main>
   <form action="?/state" use:enhance method="POST">
-    <button name="state" class:selected={data.state.state === 'PENDING'} value="PENDING">
-      En attente
+    <button name="state" class:selected={data.state.state === 'NOT_STARTED'} value="NOT_STARTED">
+      Non démarré
     </button>
     <button name="state" class:selected={data.state.state === 'QUESTION'} value="QUESTION_1">
       Question 1
@@ -18,6 +18,8 @@
   </form>
 
   <pre>{JSON.stringify(data.pool, null, 2)}</pre>
+  <pre>{JSON.stringify(data.questions, null, 2)}</pre>
+
 </main>
 
 <style lang="scss">

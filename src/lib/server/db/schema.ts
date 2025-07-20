@@ -100,3 +100,6 @@ export const adminSession = pgTable('admin_session', {
 export type Session = typeof adminSession.$inferSelect;
 
 export type User = typeof adminUser.$inferSelect;
+
+export type Question = typeof quizQuestion.$inferSelect;
+export type QuestionItem = typeof quizItem.$inferSelect;

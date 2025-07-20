@@ -14,7 +14,6 @@
     if (!$newState) {
       return;
     }
-    console.log({ newState: $newState });
     if (!document.startViewTransition) {
       invalidateAll();
     } else {

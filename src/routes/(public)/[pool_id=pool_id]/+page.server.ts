@@ -1,8 +1,9 @@
-import { quizAnswer, quizItem, quizPool, quizQuestion } from '$lib/server/db/schema';
+import { quizAnswer, quizPool } from '$lib/server/db/schema';
 import { db } from '$lib/server/db';
 import { eq } from 'drizzle-orm';
 import { parseState } from '$lib/state';
-import { error } from '@sveltejs/kit';
+import { error }                            from '@sveltejs/kit';
+import { getQuestionWithItemsByQuestionId } from '$lib/quiz.service';
 
 export async function load({ params, parent }) {
   const [pool] = await db
@@ -25,19 +26,10 @@ export async function load({ params, parent }) {
   }
 
   const currentQuestionId = state.state === 'ANSWERED' || state.state === 'QUESTION' ? state.id : 0;
-  console.log({currentQuestionId})
-  const [questions] = await db
-    .select({
-      questions: quizQuestion,
-      items: quizItem,
-    })
-    .from(quizQuestion)
-    .leftJoin(quizItem, eq(quizItem.quizId, quizQuestion.id))
-    .where(eq(quizQuestion.id, currentQuestionId));
-
+  const question = await getQuestionWithItemsByQuestionId(currentQuestionId);
   return {
     pool,
     state,
-    ...questions,
+    question: question,
   };
 }

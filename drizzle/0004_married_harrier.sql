@@ -1,0 +1,2 @@
+ALTER TABLE "quiz_answer" ADD CONSTRAINT "quiz_answer_user_id_quiz_user_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."quiz_user"("user_id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "quiz_user" ADD CONSTRAINT "quiz_user_user_id_quizPollId_unique" UNIQUE("user_id","quiz_poll_id");

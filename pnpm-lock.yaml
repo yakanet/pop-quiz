@@ -24,8 +24,8 @@ importers:
         specifier: ^2.50.0
         version: 2.50.0
       drizzle-orm:
-        specifier: ^0.40.0
-        version: 0.40.1(gel@2.1.0)(postgres@3.4.7)
+        specifier: ^1.0.0-beta.1-c0277c0
+        version: 1.0.0-beta.1-fd5d1e8(gel@2.1.0)(postgres@3.4.7)
       postgres:
         specifier: ^3.4.5
         version: 3.4.7
@@ -67,8 +67,8 @@ importers:
         specifier: ^20
         version: 20.19.0
       drizzle-kit:
-        specifier: ^0.30.2
-        version: 0.30.6
+        specifier: ^1.0.0-beta.1-c0277c0
+        version: 1.0.0-beta.1-fd5d1e8
       eslint:
         specifier: ^9.18.0
         version: 9.28.0
@@ -1382,12 +1382,12 @@ packages:
   dom-accessibility-api@0.6.3:
     resolution: {integrity: sha512-7ZgogeTnjuHbo+ct10G9Ffp0mif17idi0IyWNVA/wcwcm7NPOD/WEHVP3n7n3MhXqxoIYm8d6MuZohYWIZ4T3w==}
 
-  drizzle-kit@0.30.6:
-    resolution: {integrity: sha512-U4wWit0fyZuGuP7iNmRleQyK2V8wCuv57vf5l3MnG4z4fzNTjY/U13M8owyQ5RavqvqxBifWORaR3wIUzlN64g==}
+  drizzle-kit@1.0.0-beta.1-fd5d1e8:
+    resolution: {integrity: sha512-RuqA0QeixasxRokPdWpkfkP3J4aUQbOOZC/+VW0aeYnF+56TyV1ptvwlNHJ0vKlTcaU4cix5n2Pu7B4Iucm4IA==}
     hasBin: true
 
-  drizzle-orm@0.40.1:
-    resolution: {integrity: sha512-aPNhtiJiPfm3qxz1czrnIDkfvkSdKGXYeZkpG55NPTVI186LmK2fBLMi4dsHpPHlJrZeQ92D322YFPHADBALew==}
+  drizzle-orm@1.0.0-beta.1-fd5d1e8:
+    resolution: {integrity: sha512-p/6rhE/MU3qD61sYOiUW9u6EM3S+GspByTzpgDHwzv9s7JEMSmfcDrFa4eyRSWCczx6/IC2AnB4SJt6uM0xydQ==}
     peerDependencies:
       '@aws-sdk/client-rds-data': '>=3'
       '@cloudflare/workers-types': '>=4'
@@ -1405,7 +1405,7 @@ packages:
       '@types/sql.js': '*'
       '@vercel/postgres': '>=0.8.0'
       '@xata.io/client': '*'
-      better-sqlite3: '>=7'
+      better-sqlite3: '>=9.3.0'
       bun-types: '*'
       expo-sqlite: '>=14.0.0'
       gel: '>=2'
@@ -3553,7 +3553,7 @@ snapshots:
 
   dom-accessibility-api@0.6.3: {}
 
-  drizzle-kit@0.30.6:
+  drizzle-kit@1.0.0-beta.1-fd5d1e8:
     dependencies:
       '@drizzle-team/brocli': 0.10.2
       '@esbuild-kit/esm-loader': 2.6.5
@@ -3563,7 +3563,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  drizzle-orm@0.40.1(gel@2.1.0)(postgres@3.4.7):
+  drizzle-orm@1.0.0-beta.1-fd5d1e8(gel@2.1.0)(postgres@3.4.7):
     optionalDependencies:
       gel: 2.1.0
       postgres: 3.4.7
