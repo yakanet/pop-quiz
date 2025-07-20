@@ -7,7 +7,7 @@
 <div class="admin">
   <nav>
     <ul>
-      <li aria-current={page.url.pathname === '/admin/pools/1' ? 'page' : undefined}>
+      <li aria-current={page.url.pathname.startsWith('/admin/pools/1') ? 'page' : undefined}>
         <a href="/admin/pools/1">Pools</a>
       </li>
       <li aria-current={page.url.pathname === '/admin/remote' ? 'page' : undefined}>

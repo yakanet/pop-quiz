@@ -1,5 +1,5 @@
 import { db } from '$lib/server/db';
-import { quizPool } from '$lib/server/db/schema';
+import { quizPool, quizQuestion } from '$lib/server/db/schema';
 import { eq } from 'drizzle-orm';
 import { error, fail } from '@sveltejs/kit';
 import { parseState } from '$lib/state';
@@ -23,20 +23,19 @@ export async function load({ params }) {
 }
 
 export const actions = {
-  state: async ({ request, params }) => {
+  add: async () => {
+    await db.insert(quizQuestion).values({
+      quizPollId: 1,
+      questionType: 'SINGLE',
+      question: 'New question',
+    });
+  },
+  delete: async ({ request }) => {
     const form = await request.formData();
-    const rawState = form.get('state')?.toString() ?? '';
-    const state = parseState(rawState);
-    if (state.state === 'UNKNOWN') {
-      fail(400, {
-        message: 'Unknown state',
-      });
+    const id = Number(form.get('id')?.toString());
+    if (isNaN(id)) {
+      return fail(400, { message: `Could not find any id to delete` });
     }
-    await db
-      .update(quizPool)
-      .set({
-        state: rawState,
-      })
-      .where(eq(quizPool.id, Number(params.pool_id)));
+    await db.delete(quizQuestion).where(eq(quizQuestion.id, Number(id)));
   },
 };
