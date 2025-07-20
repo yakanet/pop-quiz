@@ -36,6 +36,13 @@
       "when": 1753003585873,
       "tag": "0004_married_harrier",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1753015800218,
+      "tag": "0005_brave_night_thrasher",
+      "breakpoints": true
     }
   ]
 }

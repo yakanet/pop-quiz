@@ -1,7 +1,6 @@
 import {
   boolean,
   integer,
-  json,
   pgEnum,
   pgTable,
   serial,
@@ -39,7 +38,6 @@ export const quizQuestion = pgTable('quiz_question', {
 export const quizItem = pgTable('quiz_question_item', {
   id: serial().primaryKey(),
   title: varchar().notNull(),
-  answer: boolean().default(false).notNull(),
   createdAt: timestamp({ withTimezone: true, mode: 'date' }).defaultNow().notNull(),
   updatedAt: timestamp({ withTimezone: true, mode: 'date' })
     .$onUpdate(() => new Date())
@@ -74,7 +72,7 @@ export const quizAnswer = pgTable('quiz_answer', {
   quizItemId: integer()
     .notNull()
     .references(() => quizItem.id),
-  answer: json().notNull(),
+  answer: varchar().notNull(),
   createdAt: timestamp({ withTimezone: true, mode: 'date' }).defaultNow().notNull(),
   updatedAt: timestamp({ withTimezone: true, mode: 'date' })
     .$onUpdate(() => new Date())
