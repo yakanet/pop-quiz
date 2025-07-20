@@ -1,7 +1,7 @@
 import { db } from '$lib/server/db';
 import { quizPool, quizQuestion } from '$lib/server/db/schema';
 import { eq } from 'drizzle-orm';
-import { error, fail } from '@sveltejs/kit';
+import { error, fail, redirect } from '@sveltejs/kit';
 import { parseState } from '$lib/state';
 import { getQuestionWithItemsByPoolId } from '$lib/quiz.service';
 
@@ -24,11 +24,15 @@ export async function load({ params }) {
 
 export const actions = {
   add: async () => {
-    await db.insert(quizQuestion).values({
-      quizPollId: 1,
-      questionType: 'SINGLE',
-      question: 'New question',
-    });
+    const [newQuestion] = await db
+      .insert(quizQuestion)
+      .values({
+        quizPollId: 1,
+        questionType: 'SINGLE',
+        question: 'New question',
+      })
+      .returning();
+    redirect(303, `/admin/pools/1/questions/${newQuestion.id}`);
   },
   delete: async ({ request }) => {
     const form = await request.formData();

@@ -1,6 +1,11 @@
 <script lang="ts">
   import { enhance } from '$app/forms';
   import type { SubmitFunction } from '@sveltejs/kit';
+  import editIcon from 'virtual:icons/material-symbols:edit-outline.svg';
+  import deleteIcon from 'virtual:icons/material-symbols:delete-outline.svg';
+  import addIcon from 'virtual:icons/material-symbols:add-2.svg';
+
+  import Icon from '$lib/components/Icon.svelte';
 
   let { data } = $props();
   const handleDelete: SubmitFunction = async ({ cancel }) => {
@@ -13,7 +18,10 @@
 <main>
   <div class="top-action-bar">
     <form action="?/add" method="post">
-      <button type="submit" class="btn btn-primary" formaction="?/add">Nouvelle question</button>
+      <button type="submit" class="btn btn-primary" formaction="?/add">
+        <Icon icon={addIcon} size={16} />
+        Nouvelle question
+      </button>
     </form>
   </div>
   <table>
@@ -21,7 +29,7 @@
       <tr>
         <th>Question</th>
         <th class="number">Propositions</th>
-        <th style="width: 0px">Actions</th>
+        <th style="width: 0">Actions</th>
       </tr>
     </thead>
     <tbody>
@@ -32,10 +40,12 @@
           <td>
             <div class="actions">
               <a href="/admin/pools/{data.pool.id}/questions/{question.id}" class="btn btn-primary">
+                <Icon icon={editIcon} size={16} />
                 Edit
               </a>
               <form use:enhance={handleDelete} action="?/delete" method="POST">
                 <button type="submit" name="id" value={question.id} class="btn btn-danger">
+                  <Icon icon={deleteIcon} size={16} />
                   Delete
                 </button>
               </form>
@@ -81,6 +91,12 @@
     border: none;
     border-radius: 4px;
     cursor: pointer;
+  }
+
+  .btn:has(:global(svg)) {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
   }
 
   .btn-primary {
