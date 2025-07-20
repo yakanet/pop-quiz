@@ -2,7 +2,7 @@ import { quizAnswer, quizPool } from '$lib/server/db/schema';
 import { db } from '$lib/server/db';
 import { eq } from 'drizzle-orm';
 import { parseState } from '$lib/state';
-import { error }                            from '@sveltejs/kit';
+import { error } from '@sveltejs/kit';
 import { getQuestionWithItemsByQuestionId } from '$lib/quiz.service';
 
 export async function load({ params, parent }) {

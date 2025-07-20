@@ -1,23 +1,24 @@
 <script lang="ts">
-	import { page } from '$app/state';
+  import { page } from '$app/state';
 
-	let { children } = $props();
+  let { children } = $props();
 </script>
+
 <div class="admin">
-	<nav>
-		<ul>
-			<li aria-current={page.url.pathname === '/admin/pools/1' ? 'page' : undefined}>
-				<a href="/admin/pools/1">Pools</a>
-			</li>
-			<li aria-current={page.url.pathname === '/admin/remote' ? 'page' : undefined}>
-				<a href="/admin/remote">Télécommande</a>
-			</li>
-			<li aria-current={page.url.pathname === '/admin/presentation' ? 'page' : undefined}>
-				<a href="/admin/presentation">Présentation</a>
-			</li>
-		</ul>
-	</nav>
-	{@render children()}
+  <nav>
+    <ul>
+      <li aria-current={page.url.pathname === '/admin/pools/1' ? 'page' : undefined}>
+        <a href="/admin/pools/1">Pools</a>
+      </li>
+      <li aria-current={page.url.pathname === '/admin/remote' ? 'page' : undefined}>
+        <a href="/admin/remote">Télécommande</a>
+      </li>
+      <li aria-current={page.url.pathname === '/admin/presentation' ? 'page' : undefined}>
+        <a href="/admin/presentation">Présentation</a>
+      </li>
+    </ul>
+  </nav>
+  {@render children()}
 </div>
 
 <style lang="scss">
@@ -41,7 +42,7 @@
     color: var(--color-primary-500);
   }
 
-  li[aria-current="page"] a {
+  li[aria-current='page'] a {
     color: red;
   }
 </style>

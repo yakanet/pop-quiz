@@ -1,9 +1,9 @@
 import { db } from '$lib/server/db';
-import { quizPool, quizQuestion } from '$lib/server/db/schema';
+import { quizPool } from '$lib/server/db/schema';
 import { eq } from 'drizzle-orm';
 import { error, fail } from '@sveltejs/kit';
-import { parseState }                                                     from '$lib/state';
-import { getQuestionWithItemsByPoolId, getQuestionWithItemsByQuestionId } from '$lib/quiz.service';
+import { parseState } from '$lib/state';
+import { getQuestionWithItemsByPoolId } from '$lib/quiz.service';
 
 export async function load({ params }) {
   const [pool] = await db
@@ -14,7 +14,7 @@ export async function load({ params }) {
     error(404, 'Not found');
   }
   const state = parseState(pool.state);
-  const questions = await getQuestionWithItemsByPoolId(pool.id)
+  const questions = await getQuestionWithItemsByPoolId(pool.id);
   return {
     pool,
     state,

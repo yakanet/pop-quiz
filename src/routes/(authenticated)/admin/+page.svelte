@@ -5,7 +5,7 @@
 <main>
   <h1>Liste des pools de quizz</h1>
   <ul>
-    {#each data.pools as pool}
+    {#each data.pools as pool (pool.id)}
       <li>
         <a href="/admin/pools/{pool.id}">
           {pool.name} - {pool.state}

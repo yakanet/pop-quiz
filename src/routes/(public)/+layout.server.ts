@@ -2,14 +2,12 @@ import { generateSessionToken } from '$lib/server/auth';
 import type { Cookies } from '@sveltejs/kit';
 import { dev } from '$app/environment';
 import { quizUser } from '$lib/server/db/schema';
-import { db }      from '$lib/server/db';
-import { eq, sql } from 'drizzle-orm';
+import { db } from '$lib/server/db';
 
 export async function load({ cookies }) {
   const anonymousUserId = await getOrCreateAnonymousUser(cookies);
   return { anonymousUserId };
 }
-
 
 /**
  * Retrieves an existing anonymous user ID from cookies or creates a new one if not present.
@@ -29,11 +27,13 @@ async function getOrCreateAnonymousUser(cookies: Cookies): Promise<string> {
       sameSite: 'lax',
       path: '/',
     });
-
   }
-  await db.insert(quizUser).values({ user_id: anonymousUserId, quizPollId: currentPoolId }).onConflictDoUpdate({
-    target: [quizUser.user_id, quizUser.quizPollId],
-    set: {updatedAt: new Date()}
-  });
+  await db
+    .insert(quizUser)
+    .values({ user_id: anonymousUserId, quizPollId: currentPoolId })
+    .onConflictDoUpdate({
+      target: [quizUser.user_id, quizUser.quizPollId],
+      set: { updatedAt: new Date() },
+    });
   return anonymousUserId;
 }

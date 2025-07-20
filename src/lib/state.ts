@@ -8,19 +8,19 @@ export function parseState(state: string): QuizState {
       return { state };
     default:
       if (/^PREPARE_QUESTION#\d+$/.test(state)) {
-        const [_, id] = state.split('#');
+        const [, id] = state.split('#');
         return { state: 'PREPARE_QUESTION', id: Number(id) };
       }
       if (/^QUESTION#\d+$/.test(state)) {
-        const [_, id] = state.split('#');
+        const [, id] = state.split('#');
         return { state: 'QUESTION', id: Number(id) };
       }
       if (/^ANSWERED#\d+$/.test(state)) {
-        const [_, id] = state.split('#');
+        const [, id] = state.split('#');
         return { state: 'ANSWERED', id: Number(id) };
       }
       if (/^CLOSED_QUESTION#\d+$/.test(state)) {
-        const [_, id] = state.split('#');
+        const [, id] = state.split('#');
         return { state: 'CLOSED_QUESTION', id: Number(id) };
       }
       return { state: 'UNKNOWN', raw: state };
@@ -57,12 +57,13 @@ export function nextStep(state: QuizState, questions: Question[]): QuizState | n
       return { state: 'QUESTION', id: state.id };
     case 'QUESTION':
       return { state: 'CLOSED_QUESTION', id: state.id };
-    case 'CLOSED_QUESTION':
+    case 'CLOSED_QUESTION': {
       const currentIndex = ids.findIndex((id) => id === state.id);
       if (currentIndex === ids.length - 1) {
         return { state: 'FINISHED' };
       }
       return { state: 'PREPARE_QUESTION', id: ids[currentIndex + 1] };
+    }
     default:
       return null;
   }
