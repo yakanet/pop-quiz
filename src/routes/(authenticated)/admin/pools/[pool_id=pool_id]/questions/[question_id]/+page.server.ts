@@ -30,6 +30,11 @@ export const actions = {
         questionType: questionType as any, // FIXME type
       })
       .where(eq(quizQuestion.id, question.id));
+
+    // Manage items :
+    // items[] => ADD
+    // items[positive id] => UPDATE id
+    // items[negative id] => DELETE id
     for (const [key, value] of form.entries()) {
       const match = /^items\[(?<delete>-?)(?<id>\d*)]$/.exec(key);
       if (!match || !match.groups) {
@@ -53,7 +58,6 @@ export const actions = {
           .where(eq(quizItem.id, Number(id)));
       }
     }
-    console.log([...form.entries()]);
     redirect(303, '/admin/pools/1');
   },
 };
