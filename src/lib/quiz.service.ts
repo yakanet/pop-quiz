@@ -13,7 +13,8 @@ export async function getQuestionWithItemsByQuestionId(id: number) {
     })
     .from(quizQuestion)
     .leftJoin(quizItem, eq(quizQuestion.id, quizItem.quizId))
-    .where(eq(quizQuestion.id, id));
+    .where(eq(quizQuestion.id, id))
+    .orderBy(quizItem.id);
   if (!questions.length) {
     return null;
   }
@@ -37,7 +38,8 @@ export async function getQuestionWithItemsByPoolId(id: number) {
     })
     .from(quizQuestion)
     .leftJoin(quizItem, eq(quizQuestion.id, quizItem.quizId))
-    .where(eq(quizQuestion.quizPollId, id));
+    .where(eq(quizQuestion.quizPollId, id))
+    .orderBy(quizQuestion.id, quizItem.id);
   return [
     ...questions
       .reduce((map, question) => {
