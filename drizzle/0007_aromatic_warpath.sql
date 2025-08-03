@@ -1,0 +1,1 @@
+ALTER TABLE "quiz_user" ADD COLUMN "ip" varchar;

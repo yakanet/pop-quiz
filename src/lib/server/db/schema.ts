@@ -55,6 +55,7 @@ export const quizUser = pgTable(
     quizPollId: integer()
       .notNull()
       .references(() => quizPool.id),
+    ip: varchar(),
     createdAt: timestamp({ withTimezone: true, mode: 'date' }).defaultNow().notNull(),
     updatedAt: timestamp({ withTimezone: true, mode: 'date' })
       .$onUpdate(() => new Date())
