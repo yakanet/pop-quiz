@@ -1,6 +1,6 @@
 import { db } from '$lib/server/db';
-import { quizPool, quizUser } from '$lib/server/db/schema';
-import { eq } from 'drizzle-orm';
+import { quizAnswer, quizPool, quizUser } from '$lib/server/db/schema';
+import { eq, isNull, not } from 'drizzle-orm';
 import { error, fail } from '@sveltejs/kit';
 import { nextStep, parseState } from '$lib/state';
 import { getQuestionsWithItemsByPoolId } from '$lib/quiz.service';
@@ -42,7 +42,8 @@ export const actions = {
       .where(eq(quizPool.id, Number(1)));
 
     if (state.state === 'NOT_STARTED') {
-      await db.delete(quizUser).where(eq(quizUser.quizPollId, Number(1)));
+      await db.delete(quizAnswer).where(not(isNull(quizAnswer.id)));
+      await db.delete(quizUser).where(not(isNull(quizUser.user_id)));
     }
   },
 };

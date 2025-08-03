@@ -1,5 +1,13 @@
-import { type Question, type QuestionItem }                                     from '$lib/server/db/schema';
-import { queryQuestionsWithItemsByPoolId, queryQuestionWithItemsByQuestionId } from '$lib/server/db/queries';
+import { type Pool, type Question, type QuestionItem, quizAnswer } from '$lib/server/db/schema';
+import {
+  queryPoolFromPoolId,
+  queryQuestionsWithItemsByPoolId,
+  queryQuestionWithItemsByQuestionId,
+} from '$lib/server/db/queries';
+import { error } from '@sveltejs/kit';
+import { parseState } from '$lib/state';
+import { db } from '$lib/server/db';
+import { and, eq } from 'drizzle-orm';
 
 /**
  * Retrieves a question and its associated items by a given question ID.
@@ -25,6 +33,39 @@ export async function getQuestionWithItemsByQuestionId(id: number) {
     }
   }
   return question;
+}
+
+/**
+ * Retrieves the current question for a given pool and anonymous user.
+ *
+ * @param poolId - The unique identifier of the pool to fetch the current question for.
+ * @param anonymousUserId - The unique identifier of the anonymous user.
+ * @return A promise that resolves to an object containing the current state, pool information, and the question details.
+ */
+export async function getCurrentQuestion(poolId: Pool['id'], anonymousUserId?: string) {
+  const [pool] = await queryPoolFromPoolId.execute({
+    poolId: Number(poolId),
+  });
+  if (!pool) {
+    error(404, 'Not found');
+  }
+  let state = parseState(pool.state);
+
+  // Create virtual status when question had been answered
+  const currentQuestionId = state.state === 'QUESTION' ? state.id : 0;
+  const question = await getQuestionWithItemsByQuestionId(currentQuestionId);
+
+  if (state.state === 'QUESTION' && anonymousUserId) {
+    const answerCount = await db.$count(
+      quizAnswer,
+      and(eq(quizAnswer.userId, anonymousUserId), eq(quizAnswer.quizItemId, currentQuestionId))
+    );
+    if (answerCount > 0) {
+      state = { state: 'ANSWERED', id: state.id };
+    }
+  }
+  pool.state = state.state;
+  return { state, pool, question };
 }
 
 export async function getQuestionsWithItemsByPoolId(id: number) {

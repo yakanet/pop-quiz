@@ -1,35 +1,36 @@
 import { quizAnswer } from '$lib/server/db/schema';
 import { db } from '$lib/server/db';
-import { eq } from 'drizzle-orm';
-import { parseState } from '$lib/state';
-import { error } from '@sveltejs/kit';
-import { getQuestionWithItemsByQuestionId } from '$lib/quiz.service';
-import { queryPoolFromPoolId }              from '$lib/server/db/queries';
+import { fail } from '@sveltejs/kit';
+import { getCurrentQuestion } from '$lib/quiz.service';
 
 export async function load({ params, parent }) {
-  const [pool] = await queryPoolFromPoolId.execute({
-    poolId: Number(params.pool_id),
-  });
-
-  if (!pool) {
-    error(404, 'Not found');
-  }
-  let state = parseState(pool.state);
-
-  // Create virtual status when question had been answered
-  if (state.state === 'QUESTION') {
-    const { anonymousUserId } = await parent();
-    const answerCount = await db.$count(quizAnswer, eq(quizAnswer.userId, anonymousUserId));
-    if (answerCount > 0) {
-      state = { state: 'ANSWERED', id: state.id };
-    }
-  }
-
-  const currentQuestionId = state.state === 'ANSWERED' || state.state === 'QUESTION' ? state.id : 0;
-  const question = await getQuestionWithItemsByQuestionId(currentQuestionId);
-  return {
-    pool,
-    state,
-    question: question,
-  };
+  const { anonymousUserId } = await parent();
+  return await getCurrentQuestion(Number(params.pool_id), anonymousUserId);
 }
+
+export const actions = {
+  answer: async ({ request, params, cookies }) => {
+    const form = await request.formData();
+    const itemId = Number(form.get('item_id'));
+    if (isNaN(itemId)) {
+      return fail(415, { message: 'Invalid item id' });
+    }
+    const anonymousUserId = cookies.get('popquiz');
+    if (!anonymousUserId) {
+      return fail(401, { message: 'Unauthorized' });
+    }
+    const { question } = await getCurrentQuestion(Number(params.pool_id), anonymousUserId);
+    if (!question) {
+      return fail(404, { message: 'Question not found or out of state' });
+    }
+
+    if (question.items.find((item) => item.id === itemId) === undefined) {
+      return fail(400, { message: 'Invalid item id' });
+    }
+    await db.insert(quizAnswer).values({
+      userId: anonymousUserId,
+      quizItemId: question.id,
+      answer: String(itemId), // FIXME how to store data ?
+    });
+  },
+};

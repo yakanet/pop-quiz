@@ -100,5 +100,6 @@ export type Session = typeof adminSession.$inferSelect;
 
 export type User = typeof adminUser.$inferSelect;
 
+export type Pool = typeof quizPool.$inferSelect;
 export type Question = typeof quizQuestion.$inferSelect;
 export type QuestionItem = typeof quizItem.$inferSelect;
