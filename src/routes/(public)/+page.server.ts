@@ -11,8 +11,8 @@ export async function load({ parent }) {
 export const actions = {
   answer: async ({ request, cookies }) => {
     const form = await request.formData();
-    const itemId = Number(form.get('item_id'));
-    if (isNaN(itemId)) {
+    const quizItemId = Number(form.get('item_id'));
+    if (isNaN(quizItemId)) {
       return fail(415, { message: 'Invalid item id' });
     }
     const anonymousUserId = cookies.get('popquiz');
@@ -27,13 +27,13 @@ export const actions = {
       return redirect(303, '/');
     }
 
-    if (question.items.find((item) => item.id === itemId) === undefined) {
+    if (!question.items.find((item) => item.id === quizItemId)) {
       return redirect(303, '/');
     }
     await db.insert(quizAnswer).values({
       userId: anonymousUserId,
-      quizItemId: question.id,
-      answer: String(itemId), // FIXME how to store data ?
+      quizItemId: quizItemId,
+      answer: String(quizItemId), // FIXME how to store data ?
     });
   },
 };

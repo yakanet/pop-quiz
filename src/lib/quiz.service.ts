@@ -1,4 +1,4 @@
-import { type Question, type QuestionItem, quizAnswer } from '$lib/server/db/schema';
+import { type Question, type QuestionItem, quizAnswer, quizItem } from '$lib/server/db/schema';
 import {
   queryQuestionsWithItemsByPoolId,
   queryQuestionWithItemsByQuestionId,
@@ -22,10 +22,12 @@ export async function getCurrentQuestion(anonymousUserId?: string) {
   const currentQuestionId = 'id' in state ? state.id : 0;
   const question = await getQuestionWithItemsByQuestionId(currentQuestionId);
   if (state.state === 'QUESTION' && anonymousUserId) {
-    const answerCount = await db.$count(
-      quizAnswer,
-      and(eq(quizAnswer.userId, anonymousUserId), eq(quizAnswer.quizItemId, currentQuestionId))
-    );
+    const answerCount = await db.select({id: quizAnswer.id})
+      .from(quizAnswer)
+      .innerJoin(quizItem, eq(quizAnswer.quizItemId, quizItem.id))
+      .where(and(eq(quizAnswer.userId, anonymousUserId), eq(quizItem.quizId, currentQuestionId)))
+      .execute()
+      .then(result => result.length);
     if (answerCount > 0) {
       state = { state: 'ANSWERED', id: state.id };
     }

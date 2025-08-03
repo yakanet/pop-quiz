@@ -13,10 +13,12 @@
 			return;
 		}
 		invalidateAll();
-	})
+	});
 	$effect(() => {
-		const timeoutId = setTimeout(() => {
-			invalidateAll();
+		const timeoutId = setInterval(() => {
+			if (data.stats.state.state === 'QUESTION') {
+				invalidateAll();
+			}
 		}, 5_000);
 		return () => clearTimeout(timeoutId);
 	});
