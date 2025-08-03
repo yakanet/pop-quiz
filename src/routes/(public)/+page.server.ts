@@ -19,7 +19,10 @@ export const actions = {
     if (!anonymousUserId) {
       return fail(401, { message: 'Unauthorized' });
     }
-    const { question } = await getCurrentQuestion( anonymousUserId);
+    const { question, state } = await getCurrentQuestion(anonymousUserId);
+    if (state.state !== 'QUESTION') {
+      return fail(400, { message: 'Question is not open anymore' });
+    }
     if (!question) {
       return fail(404, { message: 'Question not found or out of state' });
     }
