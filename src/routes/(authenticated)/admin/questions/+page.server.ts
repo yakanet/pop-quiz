@@ -23,7 +23,7 @@ export const actions = {
         question: 'New question',
       })
       .returning();
-    redirect(303, `/admin/pools/1/questions/${newQuestion.id}`);
+    redirect(303, `/admin/questions/${newQuestion.id}`);
   },
   delete: async ({ request }) => {
     const form = await request.formData();

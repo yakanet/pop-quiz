@@ -58,6 +58,6 @@ export const actions = {
           .where(eq(quizItem.id, Number(id)));
       }
     }
-    redirect(303, '/admin/pools/1');
+    redirect(303, '/admin/questions');
   },
 };

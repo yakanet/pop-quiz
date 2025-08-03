@@ -40,7 +40,7 @@ export const quizItem = pgTable('quiz_question_item', {
     .defaultNow(),
   quizId: integer()
     .notNull()
-    .references(() => quizQuestion.id),
+    .references(() => quizQuestion.id, {onDelete: 'cascade'}),
 });
 
 export const quizUser = pgTable(
@@ -63,7 +63,7 @@ export const quizAnswer = pgTable('quiz_answer', {
     .references(() => quizUser.user_id),
   quizItemId: integer()
     .notNull()
-    .references(() => quizItem.id),
+    .references(() => quizItem.id, { onDelete: 'cascade' }),
   answer: varchar().notNull(),
   createdAt: timestamp({ withTimezone: true, mode: 'date' }).defaultNow().notNull(),
   updatedAt: timestamp({ withTimezone: true, mode: 'date' })
