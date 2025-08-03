@@ -64,7 +64,6 @@ export const quizAnswer = pgTable('quiz_answer', {
   quizItemId: integer()
     .notNull()
     .references(() => quizItem.id, { onDelete: 'cascade' }),
-  answer: varchar().notNull(),
   createdAt: timestamp({ withTimezone: true, mode: 'date' }).defaultNow().notNull(),
   updatedAt: timestamp({ withTimezone: true, mode: 'date' })
     .$onUpdate(() => new Date())
@@ -88,9 +87,6 @@ export const adminSession = pgTable('admin_session', {
 });
 
 export type Session = typeof adminSession.$inferSelect;
-
-export type AdminUser = typeof adminUser.$inferSelect;
-export type AnonymousUser = typeof quizUser.$inferSelect;
 
 export type Question = typeof quizQuestion.$inferSelect;
 export type QuestionItem = typeof quizItem.$inferSelect;

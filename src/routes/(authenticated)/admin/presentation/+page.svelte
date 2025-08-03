@@ -25,5 +25,5 @@
 </script>
 
 <main>
-	<pre>{JSON.stringify(data, null, 2)}</pre>
+	<pre>{JSON.stringify(data.stats, null, 2)}</pre>
 </main>

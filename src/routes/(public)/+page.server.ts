@@ -33,7 +33,6 @@ export const actions = {
     await db.insert(quizAnswer).values({
       userId: anonymousUserId,
       quizItemId: quizItemId,
-      answer: String(quizItemId), // FIXME how to store data ?
     });
   },
 };

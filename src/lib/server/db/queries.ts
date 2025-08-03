@@ -7,10 +7,7 @@ import { quizAnswer, quizItem, quizQuestion, quizState } from '$lib/server/db/sc
  *
  * @constant queryState - A prepared query that, when executed with a provided pool ID, returns the corresponding quiz pool record from the database.
  */
-export const queryState = db
-  .select()
-  .from(quizState)
-  .prepare('queryState');
+export const queryState = db.select().from(quizState).prepare('queryState');
 
 /**
  * Retrieves a single question along with its associated items based on the provided question ID.
@@ -28,7 +25,6 @@ export const queryQuestionWithItemsByQuestionId = db
   .orderBy(quizItem.id)
   .prepare('queryQuestionWithItemsByQuestionId');
 
-
 /**
  * A prepared database query to retrieve quiz questions along with their associated items
  * for a specific quiz pool identified by its ID.
@@ -45,11 +41,23 @@ export const queryQuestionsWithItems = db
   .orderBy(quizQuestion.id, quizItem.id)
   .prepare('queryQuestionsWithItems');
 
-
-export const queryCountUserAnswerForQuestionId =  db.select({id: quizAnswer.id})
+export const findAnswersForQuestionId = db
+  .select({quizItemId: quizAnswer.quizItemId, userId: quizAnswer.userId})
   .from(quizAnswer)
   .innerJoin(quizItem, eq(quizAnswer.quizItemId, quizItem.id))
-  .where(and(eq(quizAnswer.userId, sql.placeholder('user_id')), eq(quizItem.quizId, sql.placeholder('quiz_id'))))
+  .where(eq(quizItem.quizId, sql.placeholder('questionId')))
+  .prepare('findAnswersForQuestionId');
+
+export const queryCountUserAnswerForQuestionId = db
+  .select({ id: quizAnswer.id })
+  .from(quizAnswer)
+  .innerJoin(quizItem, eq(quizAnswer.quizItemId, quizItem.id))
+  .where(
+    and(
+      eq(quizAnswer.userId, sql.placeholder('user_id')),
+      eq(quizItem.quizId, sql.placeholder('quiz_id'))
+    )
+  )
   .prepare('queryCountUserAnswerForQuestionId');
 /**
  * A prepared database query for deleting a quiz question by its unique identifier.
