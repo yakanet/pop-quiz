@@ -1,0 +1,1 @@
+<h1>Le quiz va bientôt commencer</h1>

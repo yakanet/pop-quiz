@@ -8,6 +8,7 @@
 	import AnswerState from './AnswerState.svelte';
 	import ClosedState from './ClosedState.svelte';
 	import FinishedState from './FinishedState.svelte';
+	import NotStartedState from './NotStartedState.svelte';
 
 	let { data } = $props();
 	let state = $derived(data.state);
@@ -36,13 +37,12 @@
 		<AnswerState question={data.question} />
 	{:else if state.state === 'CLOSED_QUESTION'}
 		<ClosedState />
+	{:else if state.state === 'NOT_STARTED'}
+		<NotStartedState />
 	{:else if state.state === 'FINISHED'}
 		<FinishedState />
-	{:else if state.state === 'UNKNOWN'}
-		<h1>État inconnu ({state.raw})</h1>
-		<pre>{JSON.stringify(data, null, 2)}</pre>
 	{:else}
-		<hr />
+		<h1>État inconnu</h1>
 		<pre>{JSON.stringify(data, null, 2)}</pre>
 	{/if}
 </main>
