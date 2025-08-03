@@ -6,6 +6,8 @@
 	import type { QuizState } from '$lib/quiz.model';
 	import { invalidateAll } from '$app/navigation';
 	import AnswerState from './AnswerState.svelte';
+	import ClosedState from './ClosedState.svelte';
+	import FinishedState from './FinishedState.svelte';
 
 	let { data } = $props();
 	let state = $derived(data.state);
@@ -32,8 +34,10 @@
 		<QuestionState question={data.question} items={data.question.items} />
 	{:else if state.state === 'ANSWERED' && data.question}
 		<AnswerState question={data.question} />
+	{:else if state.state === 'CLOSED_QUESTION'}
+		<ClosedState />
 	{:else if state.state === 'FINISHED'}
-		<h1>Fermé</h1>
+		<FinishedState />
 	{:else if state.state === 'UNKNOWN'}
 		<h1>État inconnu ({state.raw})</h1>
 		<pre>{JSON.stringify(data, null, 2)}</pre>

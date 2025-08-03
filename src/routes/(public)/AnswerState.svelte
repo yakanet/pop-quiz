@@ -8,4 +8,3 @@
 	let { question }: Prop = $props();
 </script>
 <h1>Vous avez déjà répondu à cette question</h1>
-<pre>{JSON.stringify(question, null, 2)}</pre>
