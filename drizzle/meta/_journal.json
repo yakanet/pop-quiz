@@ -78,6 +78,13 @@
       "when": 1754241197800,
       "tag": "0010_high_leopardon",
       "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1754243848582,
+      "tag": "0011_fine_annihilus",
+      "breakpoints": true
     }
   ]
 }
