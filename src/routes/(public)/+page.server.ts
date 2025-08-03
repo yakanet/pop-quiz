@@ -1,6 +1,6 @@
 import { quizAnswer } from '$lib/server/db/schema';
 import { db } from '$lib/server/db';
-import { fail } from '@sveltejs/kit';
+import { fail, redirect } from '@sveltejs/kit';
 import { getCurrentQuestion } from '$lib/quiz.service';
 
 export async function load({ parent }) {
@@ -21,14 +21,14 @@ export const actions = {
     }
     const { question, state } = await getCurrentQuestion(anonymousUserId);
     if (state.state !== 'QUESTION') {
-      return fail(400, { message: 'Question is not open anymore' });
+      return redirect(303, '/');
     }
     if (!question) {
-      return fail(404, { message: 'Question not found or out of state' });
+      return redirect(303, '/');
     }
 
     if (question.items.find((item) => item.id === itemId) === undefined) {
-      return fail(400, { message: 'Invalid item id' });
+      return redirect(303, '/');
     }
     await db.insert(quizAnswer).values({
       userId: anonymousUserId,
