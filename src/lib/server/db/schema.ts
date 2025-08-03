@@ -12,7 +12,7 @@ import {
 export const questionType = pgEnum('question_type', ['SINGLE', 'MULTIPLE', 'CURSOR']);
 export const quizPool = pgTable('quiz_pool', {
   id: serial().primaryKey(),
-  name: varchar().default('50'),
+  name: varchar().notNull(),
   state: varchar().notNull(),
   createdAt: timestamp({ withTimezone: true, mode: 'date' }).defaultNow().notNull(),
   updatedAt: timestamp({ withTimezone: true, mode: 'date' })

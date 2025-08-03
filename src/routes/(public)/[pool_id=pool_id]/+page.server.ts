@@ -1,15 +1,15 @@
-import { quizAnswer, quizPool } from '$lib/server/db/schema';
+import { quizAnswer } from '$lib/server/db/schema';
 import { db } from '$lib/server/db';
 import { eq } from 'drizzle-orm';
 import { parseState } from '$lib/state';
 import { error } from '@sveltejs/kit';
 import { getQuestionWithItemsByQuestionId } from '$lib/quiz.service';
+import { queryPoolFromPoolId }              from '$lib/server/db/queries';
 
 export async function load({ params, parent }) {
-  const [pool] = await db
-    .select()
-    .from(quizPool)
-    .where(eq(quizPool.id, Number(params.pool_id)));
+  const [pool] = await queryPoolFromPoolId.execute({
+    quizPoolId: Number(params.pool_id),
+  });
 
   if (!pool) {
     error(404, 'Not found');

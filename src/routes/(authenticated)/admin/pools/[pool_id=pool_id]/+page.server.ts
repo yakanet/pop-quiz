@@ -1,20 +1,19 @@
 import { db } from '$lib/server/db';
-import { quizPool, quizQuestion } from '$lib/server/db/schema';
-import { eq } from 'drizzle-orm';
+import { quizQuestion } from '$lib/server/db/schema';
 import { error, fail, redirect } from '@sveltejs/kit';
 import { parseState } from '$lib/state';
-import { getQuestionWithItemsByPoolId } from '$lib/quiz.service';
+import { getQuestionsWithItemsByPoolId } from '$lib/quiz.service';
+import { deleteQuestionWithQuestionId, queryPoolFromPoolId } from '$lib/server/db/queries';
 
 export async function load({ params }) {
-  const [pool] = await db
-    .select()
-    .from(quizPool)
-    .where(eq(quizPool.id, Number(params.pool_id)));
+  const [pool] = await queryPoolFromPoolId.execute({
+    poolId: Number(params.pool_id),
+  });
   if (!pool) {
     error(404, 'Not found');
   }
   const state = parseState(pool.state);
-  const questions = await getQuestionWithItemsByPoolId(pool.id);
+  const questions = await getQuestionsWithItemsByPoolId(pool.id);
   return {
     pool,
     state,
@@ -40,6 +39,8 @@ export const actions = {
     if (isNaN(id)) {
       return fail(400, { message: `Could not find any id to delete` });
     }
-    await db.delete(quizQuestion).where(eq(quizQuestion.id, Number(id)));
+    await deleteQuestionWithQuestionId.execute({
+      questionId: id,
+    });
   },
 };

@@ -1,23 +1,23 @@
-import { db } from '$lib/server/db';
-import { type Question, type QuestionItem, quizItem, quizQuestion } from '$lib/server/db/schema';
-import { eq } from 'drizzle-orm';
+import { type Question, type QuestionItem }                                     from '$lib/server/db/schema';
+import { queryQuestionsWithItemsByPoolId, queryQuestionWithItemsByQuestionId } from '$lib/server/db/queries';
 
+/**
+ * Retrieves a question and its associated items by a given question ID.
+ *
+ * @param  id - The ID of the question to retrieve.
+ * @return  A promise that resolves to a question with its associated items if found, otherwise null.
+ */
 export async function getQuestionWithItemsByQuestionId(id: number) {
   if (!id) {
     return null;
   }
-  const questions = await db
-    .select({
-      questions: quizQuestion,
-      items: quizItem,
-    })
-    .from(quizQuestion)
-    .leftJoin(quizItem, eq(quizQuestion.id, quizItem.quizId))
-    .where(eq(quizQuestion.id, id))
-    .orderBy(quizItem.id);
+  const questions = await queryQuestionWithItemsByQuestionId.execute({
+    questionId: id,
+  });
   if (!questions.length) {
     return null;
   }
+  // Create single object query with attribute items
   const question: Question & { items: QuestionItem[] } = { ...questions[0].questions, items: [] };
   for (const { items: item } of questions) {
     if (item) {
@@ -27,19 +27,13 @@ export async function getQuestionWithItemsByQuestionId(id: number) {
   return question;
 }
 
-export async function getQuestionWithItemsByPoolId(id: number) {
+export async function getQuestionsWithItemsByPoolId(id: number) {
   if (!id) {
     return [];
   }
-  const questions = await db
-    .select({
-      questions: quizQuestion,
-      items: quizItem,
-    })
-    .from(quizQuestion)
-    .leftJoin(quizItem, eq(quizQuestion.id, quizItem.quizId))
-    .where(eq(quizQuestion.quizPollId, id))
-    .orderBy(quizQuestion.id, quizItem.id);
+  const questions = await queryQuestionsWithItemsByPoolId.execute({
+    poolId: id,
+  });
   return [
     ...questions
       .reduce((map, question) => {
