@@ -6,8 +6,8 @@
 </script>
 
 <main>
-  <p>Current = {JSON.stringify(data.state)}</p>
-  <p>Next = {JSON.stringify(data.nextState)}</p>
+  <h2>Actuel = {stateToString(data.state)}</h2>
+  <p>Prochain état = {data.nextState ? stateToString(data.nextState) : 'Aucun'}</p>
   <form action="?/state" use:enhance method="post">
     <button name="state" type="submit" value="NOT_STARTED">Reset</button>
     {#if data.nextState}

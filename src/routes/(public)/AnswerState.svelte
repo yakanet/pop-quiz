@@ -7,4 +7,5 @@
 
 	let { question }: Prop = $props();
 </script>
-<h1>Vous avez déjà répondu à cette question</h1>
+<h1>{question.question}</h1>
+<p>Vous avez déjà répondu à cette question</p>

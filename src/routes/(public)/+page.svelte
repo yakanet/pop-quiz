@@ -29,14 +29,14 @@
 </script>
 
 <main>
-	{#if state.state === 'PREPARE_QUESTION'}
-		<PrepareQuestionState />
+	{#if state.state === 'PREPARE_QUESTION'  && data.question}
+		<PrepareQuestionState question={data.question} />
 	{:else if state.state === 'QUESTION' && data.question}
 		<QuestionState question={data.question} items={data.question.items} />
 	{:else if state.state === 'ANSWERED' && data.question}
 		<AnswerState question={data.question} />
-	{:else if state.state === 'CLOSED_QUESTION'}
-		<ClosedState />
+	{:else if state.state === 'CLOSED_QUESTION' && data.question}
+		<ClosedState question={data.question} />
 	{:else if state.state === 'NOT_STARTED'}
 		<NotStartedState />
 	{:else if state.state === 'FINISHED'}

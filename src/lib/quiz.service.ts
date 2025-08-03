@@ -1,13 +1,37 @@
 import { type Question, type QuestionItem, quizAnswer } from '$lib/server/db/schema';
 import {
-  queryState,
   queryQuestionsWithItemsByPoolId,
   queryQuestionWithItemsByQuestionId,
+  queryState,
 } from '$lib/server/db/queries';
 import { error } from '@sveltejs/kit';
 import { parseState } from '$lib/state';
 import { db } from '$lib/server/db';
 import { and, eq } from 'drizzle-orm';
+
+/**
+ * Retrieves the current question for a given pool and anonymous user.
+ *
+ * @param anonymousUserId - The unique identifier of the anonymous user.
+ * @return A promise that resolves to an object containing the current state, pool information, and the question details.
+ */
+export async function getCurrentQuestion(anonymousUserId?: string) {
+  let state = parseState(await getCurrentRawState());
+
+  // Create virtual status when question had been answered
+  const currentQuestionId = 'id' in state ? state.id : 0;
+  const question = await getQuestionWithItemsByQuestionId(currentQuestionId);
+  if (state.state === 'QUESTION' && anonymousUserId) {
+    const answerCount = await db.$count(
+      quizAnswer,
+      and(eq(quizAnswer.userId, anonymousUserId), eq(quizAnswer.quizItemId, currentQuestionId))
+    );
+    if (answerCount > 0) {
+      state = { state: 'ANSWERED', id: state.id };
+    }
+  }
+  return { state, question };
+}
 
 /**
  * Retrieves a question and its associated items by a given question ID.
@@ -47,31 +71,6 @@ export async function getCurrentRawState() {
     error(404, 'Not found');
   }
   return state.state;
-}
-
-/**
- * Retrieves the current question for a given pool and anonymous user.
- *
- * @param anonymousUserId - The unique identifier of the anonymous user.
- * @return A promise that resolves to an object containing the current state, pool information, and the question details.
- */
-export async function getCurrentQuestion(anonymousUserId?: string) {
-  let state = parseState(await getCurrentRawState());
-
-  // Create virtual status when question had been answered
-  const currentQuestionId = state.state === 'QUESTION' ? state.id : 0;
-  const question = await getQuestionWithItemsByQuestionId(currentQuestionId);
-
-  if (state.state === 'QUESTION' && anonymousUserId) {
-    const answerCount = await db.$count(
-      quizAnswer,
-      and(eq(quizAnswer.userId, anonymousUserId), eq(quizAnswer.quizItemId, currentQuestionId))
-    );
-    if (answerCount > 0) {
-      state = { state: 'ANSWERED', id: state.id };
-    }
-  }
-  return { state, question };
 }
 
 export async function findAllQuestions() {

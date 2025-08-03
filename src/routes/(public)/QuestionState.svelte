@@ -17,7 +17,7 @@
 	};
 </script>
 
-<h1>Question {question.id}</h1>
+<h1>{question.question}</h1>
 <form method="post" action="?/answer" use:enhance={handleSubmit}>
 	<ul data-size={items.length}>
 		{#each items as item (item.id)}
