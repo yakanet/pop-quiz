@@ -1,9 +1,7 @@
 <script lang="ts">
-  import Header from '$lib/components/Header.svelte';
+  import '../styles/main.scss';
 
   let { children } = $props();
 </script>
-
-<Header homeLink="/" />
 
 {@render children()}
