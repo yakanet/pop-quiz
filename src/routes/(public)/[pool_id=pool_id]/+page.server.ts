@@ -8,7 +8,7 @@ import { queryPoolFromPoolId }              from '$lib/server/db/queries';
 
 export async function load({ params, parent }) {
   const [pool] = await queryPoolFromPoolId.execute({
-    quizPoolId: Number(params.pool_id),
+    poolId: Number(params.pool_id),
   });
 
   if (!pool) {
