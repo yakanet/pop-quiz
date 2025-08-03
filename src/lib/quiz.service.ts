@@ -1,13 +1,12 @@
-import { type Question, type QuestionItem, quizAnswer, quizItem } from '$lib/server/db/schema';
+import { type Question, type QuestionItem } from '$lib/server/db/schema';
 import {
-  queryQuestionsWithItemsByPoolId,
+  queryCountUserAnswerForQuestionId,
+  queryQuestionsWithItems,
   queryQuestionWithItemsByQuestionId,
   queryState,
 } from '$lib/server/db/queries';
 import { error } from '@sveltejs/kit';
 import { parseState } from '$lib/state';
-import { db } from '$lib/server/db';
-import { and, eq } from 'drizzle-orm';
 
 /**
  * Retrieves the current question for a given pool and anonymous user.
@@ -22,12 +21,12 @@ export async function getCurrentQuestion(anonymousUserId?: string) {
   const currentQuestionId = 'id' in state ? state.id : 0;
   const question = await getQuestionWithItemsByQuestionId(currentQuestionId);
   if (state.state === 'QUESTION' && anonymousUserId) {
-    const answerCount = await db.select({id: quizAnswer.id})
-      .from(quizAnswer)
-      .innerJoin(quizItem, eq(quizAnswer.quizItemId, quizItem.id))
-      .where(and(eq(quizAnswer.userId, anonymousUserId), eq(quizItem.quizId, currentQuestionId)))
-      .execute()
-      .then(result => result.length);
+    const answerCount = await queryCountUserAnswerForQuestionId
+      .execute({
+        user_id: anonymousUserId,
+        quiz_id: currentQuestionId,
+      })
+      .then((result) => result.length);
     if (answerCount > 0) {
       state = { state: 'ANSWERED', id: state.id };
     }
@@ -76,7 +75,7 @@ export async function getCurrentRawState() {
 }
 
 export async function findAllQuestions() {
-  const questions = await queryQuestionsWithItemsByPoolId.execute();
+  const questions = await queryQuestionsWithItems.execute();
   return [
     ...questions
       .reduce((map, question) => {

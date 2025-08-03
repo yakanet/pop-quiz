@@ -1,6 +1,6 @@
 import { db } from '$lib/server/db/index';
-import { eq, sql }                          from 'drizzle-orm';
-import { quizItem, quizQuestion, quizState } from '$lib/server/db/schema';
+import { and, eq, sql } from 'drizzle-orm';
+import { quizAnswer, quizItem, quizQuestion, quizState } from '$lib/server/db/schema';
 
 /**
  * Retrieves a quiz pool from the database based on the provided pool ID.
@@ -33,9 +33,9 @@ export const queryQuestionWithItemsByQuestionId = db
  * A prepared database query to retrieve quiz questions along with their associated items
  * for a specific quiz pool identified by its ID.
  *
- * @constant queryQuestionsWithItemsByPoolId
+ * @constant queryQuestionsWithItems
  */
-export const queryQuestionsWithItemsByPoolId = db
+export const queryQuestionsWithItems = db
   .select({
     questions: quizQuestion,
     items: quizItem,
@@ -43,8 +43,14 @@ export const queryQuestionsWithItemsByPoolId = db
   .from(quizQuestion)
   .leftJoin(quizItem, eq(quizQuestion.id, quizItem.quizId))
   .orderBy(quizQuestion.id, quizItem.id)
-  .prepare('queryQuestionsWithItemsByPoolId');
+  .prepare('queryQuestionsWithItems');
 
+
+export const queryCountUserAnswerForQuestionId =  db.select({id: quizAnswer.id})
+  .from(quizAnswer)
+  .innerJoin(quizItem, eq(quizAnswer.quizItemId, quizItem.id))
+  .where(and(eq(quizAnswer.userId, sql.placeholder('user_id')), eq(quizItem.quizId, sql.placeholder('quiz_id'))))
+  .prepare('queryCountUserAnswerForQuestionId');
 /**
  * A prepared database query for deleting a quiz question by its unique identifier.
  *
