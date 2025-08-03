@@ -6,7 +6,7 @@
 
 	let { data } = $props();
 
-	const newState: Readable<QuizState> = source(`/1/status`).select('message').json();
+	const newState: Readable<QuizState> = source(`/status`).select('message').json();
 
 	$effect(() => {
 		if (!$newState) {

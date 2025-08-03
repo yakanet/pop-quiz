@@ -1,23 +1,14 @@
 import { db } from '$lib/server/db';
-import { quizAnswer, quizPool, quizUser } from '$lib/server/db/schema';
-import { eq, isNull, not } from 'drizzle-orm';
-import { error, fail } from '@sveltejs/kit';
+import { quizAnswer, quizState, quizUser } from '$lib/server/db/schema';
+import { fail } from '@sveltejs/kit';
 import { nextStep, parseState } from '$lib/state';
-import { getQuestionsWithItemsByPoolId } from '$lib/quiz.service';
+import { findAllQuestions, getCurrentRawState } from '$lib/quiz.service';
 
 export async function load() {
-  const [pool] = await db
-    .select()
-    .from(quizPool)
-    .where(eq(quizPool.id, Number(1)));
-  if (!pool) {
-    error(404, 'Not found');
-  }
-  const questions = await getQuestionsWithItemsByPoolId(pool.id);
-  const state = parseState(pool.state);
+  const state = parseState(await getCurrentRawState());
+  const questions = await findAllQuestions();
   const nextState = nextStep(state, questions);
   return {
-    pool,
     state,
     nextState,
     questions,
@@ -34,16 +25,11 @@ export const actions = {
         message: 'Unknown state',
       });
     }
-    await db
-      .update(quizPool)
-      .set({
-        state: rawState,
-      })
-      .where(eq(quizPool.id, Number(1)));
+    await db.update(quizState).set({ state: rawState });
 
     if (state.state === 'NOT_STARTED') {
-      await db.delete(quizAnswer).where(not(isNull(quizAnswer.id)));
-      await db.delete(quizUser).where(not(isNull(quizUser.user_id)));
+      await db.delete(quizAnswer);
+      await db.delete(quizUser);
     }
   },
 };

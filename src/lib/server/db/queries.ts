@@ -1,17 +1,16 @@
 import { db } from '$lib/server/db/index';
 import { eq, sql }                          from 'drizzle-orm';
-import { quizItem, quizPool, quizQuestion } from '$lib/server/db/schema';
+import { quizItem, quizQuestion, quizState } from '$lib/server/db/schema';
 
 /**
  * Retrieves a quiz pool from the database based on the provided pool ID.
  *
- * @constant queryPoolFromPoolId - A prepared query that, when executed with a provided pool ID, returns the corresponding quiz pool record from the database.
+ * @constant queryState - A prepared query that, when executed with a provided pool ID, returns the corresponding quiz pool record from the database.
  */
-export const queryPoolFromPoolId = db
+export const queryState = db
   .select()
-  .from(quizPool)
-  .where(eq(quizPool.id, sql.placeholder('poolId')))
-  .prepare('queryPoolFromPoolId');
+  .from(quizState)
+  .prepare('queryState');
 
 /**
  * Retrieves a single question along with its associated items based on the provided question ID.
@@ -43,7 +42,6 @@ export const queryQuestionsWithItemsByPoolId = db
   })
   .from(quizQuestion)
   .leftJoin(quizItem, eq(quizQuestion.id, quizItem.quizId))
-  .where(eq(quizQuestion.quizPollId, sql.placeholder('poolId')))
   .orderBy(quizQuestion.id, quizItem.id)
   .prepare('queryQuestionsWithItemsByPoolId');
 

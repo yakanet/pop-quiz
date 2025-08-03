@@ -9,7 +9,7 @@
 
 	let { data } = $props();
 	let state = $derived(data.state);
-	const newState: Readable<QuizState> = source(`/${data.pool.id}/status`).select('message').json();
+	const newState: Readable<QuizState> = source(`/status`).select('message').json();
 
 	$effect(() => {
 		if (!$newState) {

@@ -1,9 +1,5 @@
-import { db } from '$lib/server/db';
-import { quizPool } from '$lib/server/db/schema';
+import { redirect } from '@sveltejs/kit';
 
 export async function load() {
-  const pools = await db.select().from(quizPool);
-  return {
-    pools,
-  };
+  redirect(303, '/admin/pools');
 }

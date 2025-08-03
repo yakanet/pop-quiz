@@ -39,7 +39,7 @@
           <td class="number">{question.items.length}</td>
           <td>
             <div class="actions">
-              <a href="/admin/pools/{data.pool.id}/questions/{question.id}" class="btn btn-primary">
+              <a href="/admin/pools/questions/{question.id}" class="btn btn-primary">
                 <Icon icon={editIcon} size={16} />
                 Edit
               </a>

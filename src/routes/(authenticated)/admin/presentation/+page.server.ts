@@ -4,7 +4,7 @@ import { getCurrentQuestion } from '$lib/quiz.service';
 import { eq } from 'drizzle-orm';
 
 export async function load() {
-  const {state, question} = await getCurrentQuestion(1);
+  const {state, question} = await getCurrentQuestion();
   const stats = {
     state,
     voting: question ? await db.$count(quizAnswer, eq(quizAnswer.quizItemId, question.id)) : undefined,

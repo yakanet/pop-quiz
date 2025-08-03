@@ -1,21 +1,14 @@
 import { db } from '$lib/server/db';
 import { quizQuestion } from '$lib/server/db/schema';
-import { error, fail, redirect } from '@sveltejs/kit';
+import { fail, redirect } from '@sveltejs/kit';
 import { parseState } from '$lib/state';
-import { getQuestionsWithItemsByPoolId } from '$lib/quiz.service';
-import { deleteQuestionWithQuestionId, queryPoolFromPoolId } from '$lib/server/db/queries';
+import { findAllQuestions, getCurrentRawState } from '$lib/quiz.service';
+import { deleteQuestionWithQuestionId } from '$lib/server/db/queries';
 
 export async function load({ params }) {
-  const [pool] = await queryPoolFromPoolId.execute({
-    poolId: Number(params.pool_id),
-  });
-  if (!pool) {
-    error(404, 'Not found');
-  }
-  const state = parseState(pool.state);
-  const questions = await getQuestionsWithItemsByPoolId(pool.id);
+  const state = parseState(await getCurrentRawState());
+  const questions = await findAllQuestions();
   return {
-    pool,
     state,
     questions,
   };
@@ -26,7 +19,6 @@ export const actions = {
     const [newQuestion] = await db
       .insert(quizQuestion)
       .values({
-        quizPollId: 1,
         questionType: 'SINGLE',
         question: 'New question',
       })

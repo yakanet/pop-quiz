@@ -19,7 +19,6 @@ export async function load() {
 async function getOrCreateAnonymousUser(): Promise<string> {
   const event = getRequestEvent();
   let anonymousUserId = event.cookies.get('popquiz');
-  const currentPoolId = 1;
   if (!anonymousUserId) {
     anonymousUserId = generateSessionToken();
     event.cookies.set('popquiz', anonymousUserId, {
@@ -31,9 +30,9 @@ async function getOrCreateAnonymousUser(): Promise<string> {
   }
   await db
     .insert(quizUser)
-    .values({ user_id: anonymousUserId, quizPollId: currentPoolId, ip: event.getClientAddress() })
+    .values({ user_id: anonymousUserId, ip: event.getClientAddress() })
     .onConflictDoUpdate({
-      target: [quizUser.user_id, quizUser.quizPollId],
+      target: [quizUser.user_id],
       set: { updatedAt: new Date(), ip: event.getClientAddress() },
     });
   return anonymousUserId;

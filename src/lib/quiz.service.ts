@@ -1,6 +1,6 @@
-import { type Pool, type Question, type QuestionItem, quizAnswer } from '$lib/server/db/schema';
+import { type Question, type QuestionItem, quizAnswer } from '$lib/server/db/schema';
 import {
-  queryPoolFromPoolId,
+  queryState,
   queryQuestionsWithItemsByPoolId,
   queryQuestionWithItemsByQuestionId,
 } from '$lib/server/db/queries';
@@ -36,20 +36,27 @@ export async function getQuestionWithItemsByQuestionId(id: number) {
 }
 
 /**
+ * Fetches and returns the current raw state of the application by executing a query.
+ * If no state is found, it triggers an error with a 404 status.
+ *
+ * @return A promise that resolves to the raw state value.
+ */
+export async function getCurrentRawState() {
+  const [state] = await queryState.execute();
+  if (!state) {
+    error(404, 'Not found');
+  }
+  return state.state;
+}
+
+/**
  * Retrieves the current question for a given pool and anonymous user.
  *
- * @param poolId - The unique identifier of the pool to fetch the current question for.
  * @param anonymousUserId - The unique identifier of the anonymous user.
  * @return A promise that resolves to an object containing the current state, pool information, and the question details.
  */
-export async function getCurrentQuestion(poolId: Pool['id'], anonymousUserId?: string) {
-  const [pool] = await queryPoolFromPoolId.execute({
-    poolId: Number(poolId),
-  });
-  if (!pool) {
-    error(404, 'Not found');
-  }
-  let state = parseState(pool.state);
+export async function getCurrentQuestion(anonymousUserId?: string) {
+  let state = parseState(await getCurrentRawState());
 
   // Create virtual status when question had been answered
   const currentQuestionId = state.state === 'QUESTION' ? state.id : 0;
@@ -64,17 +71,11 @@ export async function getCurrentQuestion(poolId: Pool['id'], anonymousUserId?: s
       state = { state: 'ANSWERED', id: state.id };
     }
   }
-  pool.state = state.state;
-  return { state, pool, question };
+  return { state, question };
 }
 
-export async function getQuestionsWithItemsByPoolId(id: number) {
-  if (!id) {
-    return [];
-  }
-  const questions = await queryQuestionsWithItemsByPoolId.execute({
-    poolId: id,
-  });
+export async function findAllQuestions() {
+  const questions = await queryQuestionsWithItemsByPoolId.execute();
   return [
     ...questions
       .reduce((map, question) => {

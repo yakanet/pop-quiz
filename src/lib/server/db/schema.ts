@@ -5,14 +5,12 @@ import {
   pgTable,
   serial,
   timestamp,
-  unique,
   varchar,
 } from 'drizzle-orm/pg-core';
 
 export const questionType = pgEnum('question_type', ['SINGLE', 'MULTIPLE', 'CURSOR']);
-export const quizPool = pgTable('quiz_pool', {
+export const quizState = pgTable('quiz_state', {
   id: serial().primaryKey(),
-  name: varchar().notNull(),
   state: varchar().notNull(),
   createdAt: timestamp({ withTimezone: true, mode: 'date' }).defaultNow().notNull(),
   updatedAt: timestamp({ withTimezone: true, mode: 'date' })
@@ -23,9 +21,6 @@ export const quizPool = pgTable('quiz_pool', {
 
 export const quizQuestion = pgTable('quiz_question', {
   id: serial().primaryKey(),
-  quizPollId: integer()
-    .notNull()
-    .references(() => quizPool.id),
   questionType: questionType().notNull(),
   question: varchar().notNull(),
   createdAt: timestamp({ withTimezone: true, mode: 'date' }).defaultNow().notNull(),
@@ -52,9 +47,6 @@ export const quizUser = pgTable(
   'quiz_user',
   {
     user_id: varchar().primaryKey(),
-    quizPollId: integer()
-      .notNull()
-      .references(() => quizPool.id),
     ip: varchar(),
     createdAt: timestamp({ withTimezone: true, mode: 'date' }).defaultNow().notNull(),
     updatedAt: timestamp({ withTimezone: true, mode: 'date' })
@@ -62,7 +54,6 @@ export const quizUser = pgTable(
       .notNull()
       .defaultNow(),
   },
-  (table) => [unique().on(table.user_id, table.quizPollId)]
 );
 
 export const quizAnswer = pgTable('quiz_answer', {
@@ -98,8 +89,8 @@ export const adminSession = pgTable('admin_session', {
 
 export type Session = typeof adminSession.$inferSelect;
 
-export type User = typeof adminUser.$inferSelect;
+export type AdminUser = typeof adminUser.$inferSelect;
+export type AnonymousUser = typeof quizUser.$inferSelect;
 
-export type Pool = typeof quizPool.$inferSelect;
 export type Question = typeof quizQuestion.$inferSelect;
 export type QuestionItem = typeof quizItem.$inferSelect;
