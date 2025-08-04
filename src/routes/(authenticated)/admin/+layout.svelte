@@ -22,6 +22,12 @@
 </div>
 
 <style lang="scss">
+
+  .admin {
+    display: flex;
+    flex-direction: column;
+  }
+
   nav {
     border-bottom: 1px solid var(--color-primary-200);
   }

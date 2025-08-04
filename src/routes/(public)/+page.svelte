@@ -29,7 +29,7 @@
 </script>
 
 <main>
-	{#if state.state === 'PREPARE_QUESTION'  && data.question}
+	{#if state.state === 'PREPARE_QUESTION' && data.question}
 		<PrepareQuestionState question={data.question} />
 	{:else if state.state === 'QUESTION' && data.question}
 		<QuestionState question={data.question} items={data.question.items} />
