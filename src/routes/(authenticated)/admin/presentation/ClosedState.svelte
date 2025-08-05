@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { Question } from '$lib/server/db/schema';
 	import { Chart } from 'chart.js/auto';
+	import { itemsColors } from '$lib/colors';
 
 	interface Prop {
 		question: Question;
@@ -20,7 +21,7 @@
 				labels: votes.map(v => v.label),
 				datasets: [{
 					data: votes.map(v => v.count),
-					backgroundColor: ['#007bff', '#dc3545', '#ffc107', '#28a745', '#17a2b8']
+					backgroundColor: itemsColors.slice(0, votes.length),
 				}]
 			},
 			options: {}

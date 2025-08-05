@@ -2,6 +2,7 @@
 	import type { Question, QuestionItem } from '$lib/server/db/schema';
 	import { enhance }                     from '$app/forms';
 	import type { SubmitFunction }         from '@sveltejs/kit';
+	import { itemsColors } from '$lib/colors';
 
 	interface Prop {
 		question: Question;
@@ -20,9 +21,9 @@
 <h1>{question.question}</h1>
 <form method="post" action="?/answer" use:enhance={handleSubmit}>
 	<ul data-size={items.length}>
-		{#each items as item (item.id)}
+		{#each items as item, i (item.id)}
 			<li>
-				<button name="item_id" type="submit" value={item.id}>
+				<button name="item_id" type="submit" value={item.id} style:--color={itemsColors[i]}>
 					{item.title}
 				</button>
 			</li>
@@ -77,8 +78,10 @@
 
   button {
     appearance: none;
-    background: transparent;
-    border: 1px solid black;
+    background: var(--color);
+		font-size: 1.2rem;
+		border-radius: 4px;
+    border: 2px solid hsl(from var(--color) h s calc(l - 10));
 		cursor: pointer;
   }
 

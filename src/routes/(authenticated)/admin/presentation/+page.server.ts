@@ -26,7 +26,11 @@ export async function load() {
 
   const stats = {
     state,
-    votes: [...votes.values()],
+    votes: (question?.items??[]).map(i => votes.get(i.id) ?? {
+      id: i.id,
+      label: i.title,
+      count: 0,
+    }),
     user_votes: voting.size,
     total_user: await db.$count(quizUser),
   };
