@@ -1,4 +1,5 @@
 <script lang="ts">
+    import QuestionTitle from '$lib/components/QuestionTitle.svelte';
 	import type { Question } from '$lib/server/db/schema';
 
 	interface Prop {
@@ -9,6 +10,6 @@
 	let { question, maxVoting }: Prop = $props();
 </script>
 
-<h1>{question.question}</h1>
+<QuestionTitle title={question.question} />
 <p>Peut être un petit speech du présentateur ici</p>
 <p>Max : {maxVoting}</p>

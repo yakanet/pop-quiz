@@ -2,6 +2,7 @@
 	import type { Question } from '$lib/server/db/schema';
 	import { Chart } from 'chart.js/auto';
 	import { itemsColors } from '$lib/colors';
+    import QuestionTitle from '$lib/components/QuestionTitle.svelte';
 
 	interface Prop {
 		question: Question;
@@ -32,7 +33,7 @@
 	}
 </script>
 
-<h1>{question.question}</h1>
+<QuestionTitle title={question.question} />
 <div class="chart-wrapper">
 	<canvas use:chart></canvas>
 </div>

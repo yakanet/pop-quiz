@@ -1,4 +1,5 @@
 <script lang="ts">
+    import QuestionTitle from '$lib/components/QuestionTitle.svelte';
 	import type { Question, QuestionItem } from '$lib/server/db/schema';
 
 	interface Prop {
@@ -11,7 +12,7 @@
 	let { question, maxVoting, currentVoting }: Prop = $props();
 </script>
 <div class="question-state">
-	<h1>{question.question}</h1>
+	<QuestionTitle title={question.question} />
 	<p>
 		<strong>Votes : </strong>
 		{currentVoting ?? 0} / {maxVoting ?? 0}

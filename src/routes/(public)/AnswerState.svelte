@@ -1,4 +1,5 @@
 <script lang="ts">
+    import QuestionTitle from '$lib/components/QuestionTitle.svelte';
 	import type { Question } from '$lib/server/db/schema';
 
 	interface Prop {
@@ -7,5 +8,5 @@
 
 	let { question }: Prop = $props();
 </script>
-<h1>{question.question}</h1>
+<QuestionTitle title={question.question} />
 <p>Vous avez déjà répondu à cette question</p>

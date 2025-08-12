@@ -3,6 +3,7 @@
 	import { enhance }                     from '$app/forms';
 	import type { SubmitFunction }         from '@sveltejs/kit';
 	import { itemsColors } from '$lib/colors';
+  import QuestionTitle from '$lib/components/QuestionTitle.svelte';
 
 	interface Prop {
 		question: Question;
@@ -18,13 +19,13 @@
 	};
 </script>
 
-<h1>{question.question}</h1>
+<QuestionTitle title={question.question} />
 <form method="post" action="?/answer" use:enhance={handleSubmit}>
 	<ul data-size={items.length}>
 		{#each items as item, i (item.id)}
 			<li>
 				<button name="item_id" type="submit" value={item.id} style:--color={itemsColors[i]}>
-					{item.title}
+					{@html item.title}
 				</button>
 			</li>
 		{/each}
