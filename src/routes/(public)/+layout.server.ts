@@ -24,6 +24,7 @@ async function getOrCreateAnonymousUser(): Promise<string> {
     event.cookies.set('popquiz', anonymousUserId, {
       maxAge: 60 * 60 * 24 * 365 * 10,
       httpOnly: !dev,
+      secure: !dev,
       sameSite: 'lax',
       path: '/',
     });
