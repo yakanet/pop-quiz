@@ -21,7 +21,7 @@
 	});
 	$effect(() => {
 		const timeoutId = setInterval(() => {
-			if (data.stats.state.state === 'QUESTION') {
+			if (data.stats.state.state === 'QUESTION' || data.stats.state.state === 'PREPARE_QUESTION') {
 				invalidateAll();
 			}
 		}, 5_000);
@@ -31,7 +31,9 @@
 
 <main>
 	{#if state.state === 'PREPARE_QUESTION' && data.question}
-		<PrepareQuestionState question={data.question} />
+		<PrepareQuestionState 
+			question={data.question}
+			maxVoting={data.stats.total_user} />
 	{:else if state.state === 'QUESTION' && data.question}
 		<QuestionState question={data.question}
 									 maxVoting={data.stats.total_user}

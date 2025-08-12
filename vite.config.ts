@@ -5,6 +5,9 @@ import iconify from './src/plugins/iconify-plugin';
 
 export default defineConfig(() => ({
   plugins: [iconify(), sveltekit()],
+  server: {
+      host: '0.0.0.0',
+  },
   test: {
     projects: [
       {
