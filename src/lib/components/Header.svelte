@@ -9,9 +9,9 @@
 </script>
 
 <header>
-  <a href={homeLink}>
+  
     <img src="https://pezenasentransition.org/site/images/logoFB13.png" alt="Logo" />
-  </a>
+ 
   {#if children}
     <div class="right">
       {@render children()}

@@ -8,8 +8,8 @@
 	});
 </script>
 <p>L'évenement va bientôt commencer</p>
-<p>Pour participer: connectez-vous sur <a
-	href="https://popquiz.pezenasentransition.org">popquiz.pezenasentransition.org</a></p>
+<p>Pour participer: connectez-vous sur 
+  <a href="https://popquiz.pezenasentransition.org">popquiz.pezenasentransition.org</a></p>
 <div class="svg-wrapper">
 	{@html svg}
 </div>

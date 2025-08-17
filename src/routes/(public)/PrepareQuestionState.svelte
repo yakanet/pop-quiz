@@ -8,5 +8,12 @@
 
 	let { question }: Prop = $props();
 </script>
-<QuestionTitle title={question.question} />
-<p>Attendez un moment avant de pouvoir participer à cette question</p>
+<img src="chapitre{question.id}.png" alt="Chapitre {question.id}" style="margin-bottom:30px" />
+<h2 style="text-align: center;">
+	Soyez attentif !<br/>
+	Dans quelques minutes,<br/>c’est vous qui aurez la parole !
+	
+</h2>
+
+
+
