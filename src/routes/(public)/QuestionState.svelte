@@ -19,13 +19,14 @@
 	};
 </script>
 
-<QuestionTitle title={question.question} />
+<b ><h1 style="text-align:center;">{@html question.question} </h1></b><hr/>
+
 <form method="post" action="?/answer" use:enhance={handleSubmit}>
-	<ul data-size={items.length}>
+	<ul dataxx-size={items.length}>
 		{#each items as item, i (item.id)}
 			<li>
 				<button name="item_id" type="submit" value={item.id} style:--color={itemsColors[i]}>
-					{@html item.title}
+					<span style="font-weight:bold;line-height: 0.8em;font-size:1.1em">{@html item.title}</span>
 				</button>
 			</li>
 		{/each}
@@ -40,7 +41,6 @@
   ul {
     margin: 0;
     margin-block-start: 1rem;
-    flex: 1;
     list-style: none;
     padding: 0;
     display: grid;
@@ -84,6 +84,7 @@
 		border-radius: 4px;
     border: 2px solid hsl(from var(--color) h s calc(l - 10));
 		cursor: pointer;
+    padding: 10px 15px;
   }
 
 </style>

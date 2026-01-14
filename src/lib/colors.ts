@@ -1,7 +1,7 @@
 export const itemsColors = [
-  '#069E2D',
-  '#9B5DE5',
-  '#FF715B',
-  '#A9D2D5',
-  '#DDDDDD'
+  '#edf4e9',
+  '#f4ede9',
+  '#e9e9f4',
+  '#fbfbe9',
+  '#edf4e9',
 ] as const;

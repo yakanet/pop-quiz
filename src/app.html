@@ -13,7 +13,7 @@
 </html>
 <style>
   @media screen and (orientation: landscape) {
-    body::before {
+    body:not([data-allow-landscape])::before {
       content: "Veuillez utiliser votre appareil en mode portrait.";
       position: fixed;
       top: 0;
@@ -30,8 +30,14 @@
       text-align: center;
       pointer-events: all;
     }
-    body > * {
+    body:not([data-allow-landscape]) > * {
       display: none !important;
     }
   }
-</style></style>
+</style>
+
+<script>
+  if (window.location.pathname.includes('/admin')) {
+    document.body.setAttribute('data-allow-landscape', '');
+  }
+</script>

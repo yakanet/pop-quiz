@@ -8,7 +8,9 @@
 
 	let { question }: Prop = $props();
 </script>
-<img src="chapitre{question.id}.png" alt="Chapitre {question.id}" style="margin-bottom:30px" />
+<div style="display: flex; justify-content: center; margin-bottom: 10px;">
+	<img src="chapitre{question.id}.png" alt="Chapitre {question.id}" style="width: 90%;" />
+</div>
 <h2 style="text-align: center;">
 	Soyez attentif !<br/>
 	Dans quelques minutes,<br/>c’est vous qui aurez la parole !

@@ -9,5 +9,9 @@
 	let { question }: Prop = $props();
 </script>
 
-<QuestionTitle title={question.question} />
-<p>Il n'y a plus le temps pour voter. Résultat en cours.</p>
+<div style="text-align:center;margin-top:2rem;">
+
+<b><h1>Les votes sont<br/>terminés !</h1></b>
+<br><br/>
+Partageons ensemble les résultats sur la vidéo projection...
+</div>

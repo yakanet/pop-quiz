@@ -1,5 +1,6 @@
 
 <h1 style="text-align:center">Conférence Gesticulée</h1>
+
 <div style="padding:10px">
     <b>Bienvenue !</b> <br/>
     <b>Carole, Pierre et Frank</b> vous invitent 

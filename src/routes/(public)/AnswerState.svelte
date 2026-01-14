@@ -8,5 +8,10 @@
 
 	let { question }: Prop = $props();
 </script>
-<QuestionTitle title={question.question} />
-<p>Vous avez déjà répondu à cette question</p>
+<div style="text-align:center;margin-top:2rem;">
+
+	<b>"{question.question}"</b><br><br/>
+<h1>Merci d'avoir répondu à cette question !</h1> 
+<br><br/>
+Attendons ensemble les résultats ...
+</div>
