@@ -25,6 +25,7 @@ async function getOrCreateAnonymousUser(): Promise<string> {
       maxAge: 60 * 60 * 24 * 365 * 10,
       httpOnly: !dev,
       secure: !dev,
+      sameSite: 'none',
       //sameSite: 'lax',
       path: '/',
     });
