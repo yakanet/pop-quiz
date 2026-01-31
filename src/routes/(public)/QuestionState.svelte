@@ -19,7 +19,7 @@
 	};
 </script>
 
-<b ><h1 style="text-align:center;">{@html question.question} </h1></b><hr/>
+<b ><h1 style="text-align:center;line-height:1em;margin:20px 0px">{@html question.question} </h1></b><hr/>
 
 <form method="post" action="?/answer" use:enhance={handleSubmit}>
 	<ul dataxx-size={items.length}>
