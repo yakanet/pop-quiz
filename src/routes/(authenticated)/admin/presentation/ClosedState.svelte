@@ -35,7 +35,7 @@
 	*/
 </script>
 
-<b style="text-align:center;margin:40px 0px"><h1>{question.question}</h1></b>
+<b style="text-align:center;margin:40px 0px"><h1>{@html question.question}</h1></b>
 <hr>
 
 {#each votes as vote, i (vote.id)}

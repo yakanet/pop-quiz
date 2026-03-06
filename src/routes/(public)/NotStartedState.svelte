@@ -3,7 +3,7 @@
 
 <div style="padding:10px">
     <b>Bienvenue !</b> <br/>
-    <b>Carole, Pierre et Frank</b> vous invitent 
+    <b>Carole, Emeline, Frank et Pierre</b> vous invitent 
     à un voyage mêlant histoires personnelles, savoirs partagés et réflexions collectives.
     <br/><br/>
     À travers cette conférence gesticulée, nous explorerons ensemble 
@@ -19,6 +19,5 @@
 <div style="color:#555;padding:10px;text-align:center;font-size:0.8em">
     <hr/><br/>
     Rappel du lien pour faire participer votre voisin ...<br/>
-    <span style="font-size:1.2em">https://popquiz.pezenasentransition.org</span>
-
+    <span style="font-size:1.2em">https://popquiz.pezenasentransition.org</span> 
 </div>
