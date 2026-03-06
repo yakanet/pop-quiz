@@ -12,7 +12,12 @@
 
 	let { data } = $props();
 	let state = $derived(data.state);
-	const newState: Readable<QuizState> = source(`/status`).select('message').json();
+	const newState: Readable<QuizState> = source(`/status`, {
+		close({ connect }) {
+			console.log('reconnecting...');
+			connect();
+		}
+	}).select('message').json();
 
 	$effect(() => {
 		if (!$newState) {
