@@ -10,7 +10,7 @@
     <b>l’empreinte écologique de nos civilisations</b>
 </div>
 <div style="padding:10px;color:#fff;background-color:#71a02f;margin:10px 0px;text-align:center;font-weight:bold;font-size:1.2em">
-    Dans quelques instants votre écran se mettra automatiquement à jour pour vous permettre de participer
+    Au démarrage du spectacle votre écran se mettra automatiquement à jour pour vous permettre de participer
 </div>
 <div style="padding:10px">
     D’ici là… respirez, observez… et <b>imaginez le monde de demain.</b>

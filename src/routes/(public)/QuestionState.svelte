@@ -13,13 +13,13 @@
 	let { question, items }: Prop = $props();
 
 	const handleSubmit: SubmitFunction = async ({ cancel }) => {
-		if (!confirm(`Voulez-vous voter pour cette question ?`)) {
+		if (!confirm('*** CONFIRMEZ VOTRE CHOIX ***')) {
 			cancel();
 		}
 	};
 </script>
 
-<b ><h1 style="text-align:center;line-height:1em;margin:20px 0px">{@html question.question} </h1></b><hr/>
+<h1 style="text-align:center;line-height:1em;margin:20px 0px">{@html question.question} </h1><hr/>
 
 <form method="post" action="?/answer" use:enhance={handleSubmit}>
 	<ul dataxx-size={items.length}>

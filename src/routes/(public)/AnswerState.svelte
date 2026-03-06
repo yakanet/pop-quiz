@@ -10,8 +10,7 @@
 </script>
 <div style="text-align:center;margin-top:2rem;">
 
-	<b>"{question.question}"</b><br><br/>
-<h1>Merci d'avoir répondu à cette question !</h1> 
+<h1>Merci d'avoir répondu<br/>à cette question !</h1> 
 <br><br/>
-Attendons ensemble les résultats ...
+<h2 style="color:#2e8d3b">Attendons ensemble les résultats ...</h2>
 </div>

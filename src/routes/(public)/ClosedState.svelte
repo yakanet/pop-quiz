@@ -11,7 +11,8 @@
 
 <div style="text-align:center;margin-top:2rem;">
 
-<b><h1>Les votes sont<br/>terminés !</h1></b>
+<h1>Les votes sont<br/>terminés !</h1>
 <br><br/>
-Partageons ensemble les résultats sur la vidéo projection...
+<h2 style="color:#2e8d3b">Partageons ensemble les résultats sur l'écran</h2>
+
 </div>
