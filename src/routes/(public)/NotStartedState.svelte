@@ -3,7 +3,7 @@
 
 <div style="padding:10px">
     <b>Bienvenue !</b> <br/>
-    <b>Carole, Emeline, Frank et Pierre</b> vous invitent 
+    <b>Carole, Emmeline, Frank et Pierre</b> vous invitent 
     à un voyage mêlant histoires personnelles, savoirs partagés et réflexions collectives.
     <br/><br/>
     À travers cette conférence gesticulée, nous explorerons ensemble 

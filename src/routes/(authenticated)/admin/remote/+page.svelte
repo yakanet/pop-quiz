@@ -9,11 +9,11 @@
  
   
   <form action="?/state" use:enhance method="post">
-    <button name="state" type="submit" value="NOT_STARTED">Reset</button><br/><br/><br/>
-    <h2>Actuel = {stateToString(data.state)}</h2>
+    <button name="state" type="submit" value="NOT_STARTED" style="background-color:red;color:white;border:none;padding:10px 20px;cursor:pointer">RESET</button><br/><br/><br/>
+    <h4>Etat actuel = {stateToString(data.state)}</h4>
     {#if data.nextState}
       <!--<p>Prochain état = {data.nextState ? stateToString(data.nextState) : 'Aucun'}</p>-->
-      <button name="state" type="submit" value={stateToString(data.nextState)}>
+      <button name="state" type="submit" value={stateToString(data.nextState)}  style="background-color:green;color:white;border:none;padding:10px 20px;cursor:pointer">
         >>> {stateToString(data.nextState)}
       </button>
     {/if}
