@@ -14,7 +14,7 @@
     </label>
     <label>
       Mot de passe
-      <input type="password" name="password" />
+      <input type="password" name="password" autocomplete="current-password" />
     </label>
     <p style="color: red">{form?.message ?? ''}</p>
 
