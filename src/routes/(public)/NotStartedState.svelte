@@ -20,4 +20,5 @@
     <hr/><br/>
     Rappel du lien pour faire participer votre voisin ...<br/>
     <span style="font-size:1.2em">https://popquiz.pezenasentransition.org</span> 
+    <img src="qrcode.png" alt="qrcode" style="width: 120px; display: block; margin: 10px auto;" />
 </div>
