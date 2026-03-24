@@ -26,7 +26,7 @@
 		{#each items as item, i (item.id)}
 			<li>
 				<button name="item_id" type="submit" value={item.id} style:--color={itemsColors[i]}>
-					<span style="font-weight:bold;line-height: 0.8em;font-size:1.1em">{@html item.title}</span>
+					<span style="color:#000;font-weight:bold;line-height: 0.8em;font-size:1.1em">{@html item.title}</span>
 				</button>
 			</li>
 		{/each}
